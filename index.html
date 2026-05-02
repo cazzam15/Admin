@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Free Nat 5 Administration &amp; IT Revision — Scotland</title>
+<meta name="description" content="Free Nat 5 Administration &amp; IT revision for Scotland. SQA-verified questions, mock exam, worksheets and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --card: #1c2330;
+  --border: #30363d;
+  --accent: #3fb950;
+  --accent-glow: rgba(63,185,80,0.15);
+  --accent2: #f85149;
+  --accent3: #d29922;
+  --accent4: #58a6ff;
+  --accent5: #bc8cff;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --radius: 12px;
+  --nav-h: 56px;
+  font-size: 15px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+button{font-family:'Nunito',sans-serif;cursor:pointer}
+
+/* ── TOP BAR ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(13,17,23,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+  padding:0 16px;height:54px;
+}
+.topbar-logo{
+  font-size:1.1rem;font-weight:900;color:var(--text);
+  display:flex;align-items:center;gap:6px;flex:1;
+}
+.topbar-logo span{color:var(--accent)}
+.xp-pill{
+  display:flex;align-items:center;gap:6px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:100px;padding:5px 10px;font-size:0.75rem;
+  font-weight:700;font-family:'DM Mono',monospace;
+}
+.xp-pill .xp-val{color:var(--accent3)}
+.streak-pill{
+  display:flex;align-items:center;gap:4px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:100px;padding:5px 10px;font-size:0.75rem;
+  font-weight:700;
+}
+.streak-pill .fire{font-size:1rem}
+.lv-badge{
+  background:var(--accent5);color:#fff;border-radius:100px;
+  padding:3px 9px;font-size:0.7rem;font-weight:800;
+}
+
+/* ── NAV TABS ── */
+.nav-scroll{
+  display:flex;overflow-x:auto;gap:4px;
+  padding:8px 12px;background:var(--surface);
+  border-bottom:1px solid var(--border);
+  scrollbar-width:none;
+}
+.nav-scroll::-webkit-scrollbar{display:none}
+.nav-btn{
+  flex-shrink:0;display:flex;align-items:center;gap:5px;
+  background:transparent;border:1.5px solid transparent;
+  border-radius:100px;padding:6px 13px;
+  font-size:0.78rem;font-weight:700;color:var(--muted);
+  white-space:nowrap;transition:all 0.15s;
+}
+.nav-btn:hover{color:var(--text);border-color:var(--border)}
+.nav-btn.active{
+  background:var(--accent-glow);border-color:var(--accent);
+  color:var(--accent);
+}
+.nav-btn .nb-icon{font-size:1rem}
+
+/* ── PAGES ── */
+.page{display:none;padding:16px;max-width:700px;margin:0 auto;padding-bottom:80px}
+.page.active{display:block;animation:fadeIn 0.2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO (Practice page) ── */
+.hero{
+  background:linear-gradient(135deg,#1a2840 0%,#1c2f1e 100%);
+  border:1px solid var(--border);border-radius:16px;
+  padding:20px;margin-bottom:16px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'🧬';position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  font-size:4rem;opacity:0.12;
+}
+.hero h1{font-size:1.4rem;font-weight:900;line-height:1.2;margin-bottom:4px}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:0.82rem;color:var(--muted)}
+
+/* ── DAILY GOAL BAR ── */
+.goal-bar{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;
+}
+.goal-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.goal-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#7ee787);border-radius:4px;transition:width 0.5s}
+.goal-label{font-size:0.75rem;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap}
+.goal-val{font-weight:800;color:var(--accent)}
+
+/* ── SELECTORS ── */
+.selector-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.selector{
+  flex:1;min-width:120px;background:var(--card);
+  border:1.5px solid var(--border);border-radius:10px;
+  padding:8px 10px;color:var(--text);font-family:'Nunito',sans-serif;
+  font-size:0.82rem;font-weight:600;outline:none;
+  appearance:none;cursor:pointer;
+}
+.selector:focus{border-color:var(--accent4)}
+.selector option{background:var(--card)}
+
+/* ── QUESTION CARD ── */
+.q-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:16px;padding:20px;margin-bottom:14px;
+  animation:fadeIn 0.25s ease;
+}
+.q-card-header{
+  display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;
+}
+.q-tag{
+  background:rgba(88,166,255,0.12);border:1px solid rgba(88,166,255,0.25);
+  color:var(--accent4);border-radius:100px;padding:2px 10px;
+  font-size:0.68rem;font-family:'DM Mono',monospace;letter-spacing:1px;
+}
+.q-tag.hard{background:rgba(248,81,73,0.12);border-color:rgba(248,81,73,0.25);color:var(--accent2)}
+.q-tag.easy{background:rgba(63,185,80,0.12);border-color:rgba(63,185,80,0.25);color:var(--accent)}
+.q-num{font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace;margin-left:auto}
+.q-text{font-size:1rem;font-weight:700;line-height:1.45;margin-bottom:16px}
+
+/* MCQ options */
+.opts{display:grid;gap:9px}
+.opt-btn{
+  display:flex;align-items:center;gap:10px;
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 14px;
+  text-align:left;color:var(--text);font-size:0.88rem;font-weight:600;
+  transition:all 0.15s;
+}
+.opt-btn:hover:not(:disabled){border-color:var(--accent4);background:rgba(88,166,255,0.06)}
+.opt-letter{
+  font-family:'DM Mono',monospace;font-size:0.72rem;
+  background:var(--border);border-radius:6px;
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all 0.15s;font-weight:500;
+}
+.opt-btn:hover:not(:disabled) .opt-letter{background:var(--accent4);color:#0d1117}
+.opt-btn.correct{border-color:var(--accent);background:rgba(63,185,80,0.1)}
+.opt-btn.correct .opt-letter{background:var(--accent);color:#0d1117}
+.opt-btn.wrong{border-color:var(--accent2);background:rgba(248,81,73,0.1)}
+.opt-btn.wrong .opt-letter{background:var(--accent2);color:#fff}
+.opt-btn:disabled{cursor:default}
+
+/* fill-in */
+.fill-input{
+  width:100%;background:var(--surface);border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 14px;color:var(--text);font-size:0.95rem;
+  font-family:'Nunito',sans-serif;outline:none;margin-bottom:10px;transition:border-color 0.2s;
+}
+.fill-input:focus{border-color:var(--accent4)}
+.fill-input.correct{border-color:var(--accent)}
+.fill-input.wrong{border-color:var(--accent2)}
+
+/* action buttons */
+.btn-row{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.btn{
+  flex:1;min-width:90px;padding:11px 16px;border-radius:10px;
+  font-size:0.85rem;font-weight:800;border:none;transition:all 0.15s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-green{background:var(--accent);color:#0d1117}
+.btn-blue{background:transparent;border:1.5px solid var(--accent4);color:var(--accent4)}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+.btn-red{background:transparent;border:1.5px solid var(--accent2);color:var(--accent2)}
+
+/* explanation */
+.explanation{
+  margin-top:12px;background:rgba(63,185,80,0.06);
+  border:1px solid rgba(63,185,80,0.2);border-radius:10px;
+  padding:12px 14px;font-size:0.82rem;line-height:1.6;
+  display:none;animation:fadeIn 0.2s ease;
+}
+.explanation.show{display:block}
+.explanation .expl-label{color:var(--accent);font-weight:800;margin-bottom:4px}
+
+/* ── XP TOAST ── */
+.xp-toast{
+  position:fixed;top:70px;right:16px;z-index:999;
+  background:var(--accent);color:#0d1117;
+  border-radius:100px;padding:8px 16px;
+  font-weight:800;font-size:0.85rem;
+  opacity:0;transform:translateY(-10px);transition:all 0.3s;pointer-events:none;
+}
+.xp-toast.show{opacity:1;transform:translateY(0)}
+
+/* ── SECTION LABELS ── */
+.section-label{
+  font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;font-family:'DM Mono',monospace;
+}
+.section-title{
+  font-size:1.1rem;font-weight:900;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* ── TOPIC CARDS ── */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:20px}
+.topic-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:14px;
+  padding:16px 14px;cursor:pointer;transition:all 0.18s;position:relative;overflow:hidden;
+}
+.topic-card.sel{border-color:var(--accent);background:rgba(63,185,80,0.08)}
+.topic-card:hover{transform:translateY(-2px);border-color:var(--accent4)}
+.topic-icon{font-size:1.6rem;margin-bottom:8px}
+.topic-name{font-size:0.82rem;font-weight:800;line-height:1.2}
+.topic-count{font-size:0.7rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace}
+.topic-sub-text{font-size:0.65rem;color:var(--muted);margin-top:6px;line-height:1.3;opacity:0.8}
+.topic-prog{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.topic-prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.5s}
+
+/* ── FLASHCARD ── */
+.fc-wrap{perspective:1200px;margin-bottom:16px;cursor:pointer}
+.fc-inner{
+  position:relative;min-height:200px;transform-style:preserve-3d;
+  transition:transform 0.5s cubic-bezier(.4,0,.2,1);
+}
+.fc-inner.flipped{transform:rotateY(180deg)}
+.fc-face{
+  position:absolute;width:100%;min-height:200px;
+  backface-visibility:hidden;background:var(--card);
+  border:1.5px solid var(--border);border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  padding:28px 24px;text-align:center;
+}
+.fc-back{transform:rotateY(180deg)}
+.fc-label{font-size:0.68rem;color:var(--accent);font-family:'DM Mono',monospace;letter-spacing:2px;margin-bottom:12px}
+.fc-text{font-size:1.05rem;font-weight:700;line-height:1.45}
+.fc-body{width:100%}
+.fc-hint{font-size:0.78rem;color:var(--muted);text-align:center;margin-bottom:12px}
+.fc-nav{display:flex;gap:10px}
+.fc-nav-btn{
+  flex:1;padding:11px;border-radius:10px;font-weight:800;font-size:0.85rem;
+  background:transparent;transition:all 0.15s;
+}
+.fc-nav-btn.knew{border:1.5px solid var(--accent);color:var(--accent)}
+.fc-nav-btn.knew:hover{background:rgba(63,185,80,0.1)}
+.fc-nav-btn.skip{border:1.5px solid var(--accent2);color:var(--accent2)}
+.fc-nav-btn.skip:hover{background:rgba(248,81,73,0.1)}
+.fc-progress{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  font-size:0.75rem;color:var(--muted);font-family:'DM Mono',monospace;
+}
+.fc-progress-track{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.fc-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent4));border-radius:2px;transition:width 0.4s}
+
+/* ── PROGRESS BARS (quiz) ── */
+.q-progress{height:4px;background:var(--border);border-radius:2px;margin-bottom:20px;overflow:hidden}
+.q-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent4));border-radius:2px;transition:width 0.4s}
+
+/* ── RESULTS ── */
+.results-hero{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:28px;text-align:center;margin-bottom:16px;animation:fadeIn 0.4s ease;
+}
+.score-ring{width:130px;height:130px;margin:0 auto 16px;position:relative}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-text{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.score-big{font-size:2.2rem;font-weight:900;line-height:1}
+.score-lbl{font-size:0.68rem;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:1px}
+.grade-pill{
+  display:inline-block;font-weight:900;font-size:1.1rem;
+  padding:6px 20px;border-radius:100px;margin-bottom:10px;
+}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.res-item{background:var(--surface);border-radius:10px;padding:12px;text-align:center;font-family:'DM Mono',monospace}
+.res-val{font-size:1.3rem;font-weight:700}
+.res-key{font-size:0.65rem;color:var(--muted);margin-top:2px;letter-spacing:1px}
+
+/* ── MOCK EXAM ── */
+.exam-hero{
+  background:linear-gradient(135deg,#1a2840,#1e1a2e);
+  border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;
+}
+.exam-hero h2{font-size:1.1rem;font-weight:900;margin-bottom:6px}
+.exam-hero p{font-size:0.8rem;color:var(--muted);line-height:1.5}
+.exam-cards{display:grid;gap:12px;margin-bottom:16px}
+.exam-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:18px;
+  display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.18s;
+}
+.exam-card:hover{border-color:var(--accent4);transform:translateY(-1px)}
+.exam-card .ec-icon{font-size:2rem}
+.exam-card .ec-title{font-weight:900;font-size:0.95rem}
+.exam-card .ec-desc{font-size:0.78rem;color:var(--muted);margin-top:2px}
+.exam-timer-bar{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:10px 16px;margin-bottom:14px;
+  display:flex;align-items:center;gap:12px;
+}
+.exam-timer-val{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--accent3)}
+.exam-marks{font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--muted);margin-left:auto}
+
+/* ── FORMULA SHEET ── */
+.formula-section{margin-bottom:20px}
+.formula-section h3{
+  font-size:0.9rem;font-weight:800;color:var(--accent4);
+  margin-bottom:10px;padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+}
+.formula-cards{display:grid;gap:8px}
+.formula-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;
+}
+.formula-name{font-size:0.75rem;color:var(--muted);margin-bottom:4px;font-weight:700}
+.formula-val{font-family:'DM Mono',monospace;font-size:0.88rem;color:var(--text);line-height:1.6}
+
+/* ── LINKS PAGE ── */
+.links-grid{display:grid;gap:10px}
+.link-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:14px;
+  padding:14px 16px;text-decoration:none;color:var(--text);
+  display:flex;align-items:center;gap:12px;transition:all 0.15s;
+}
+.link-card:hover{border-color:var(--accent4);transform:translateX(4px)}
+.link-icon{font-size:1.6rem;flex-shrink:0}
+.link-title{font-weight:800;font-size:0.9rem}
+.link-desc{font-size:0.75rem;color:var(--muted);margin-top:2px}
+
+/* ── SETTINGS PAGE ── */
+.settings-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:16px;margin-bottom:12px;
+}
+.settings-card h3{font-size:0.85rem;font-weight:800;color:var(--accent4);margin-bottom:12px}
+.setting-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.setting-label{font-size:0.85rem;flex:1}
+.setting-input{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:8px;
+  padding:6px 10px;color:var(--text);font-family:'Nunito',sans-serif;
+  font-size:0.85rem;outline:none;width:100px;
+}
+.setting-input:focus{border-color:var(--accent4)}
+
+/* ── PROGRESS PAGE ── */
+.prog-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.prog-stat{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:14px;text-align:center;
+}
+.prog-stat-val{font-size:1.6rem;font-weight:900;color:var(--accent)}
+.prog-stat-key{font-size:0.72rem;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace}
+.prog-topic-row{
+  display:flex;align-items:center;gap:10px;
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;margin-bottom:8px;
+}
+.prog-topic-name{font-size:0.85rem;font-weight:700;flex:1}
+.prog-topic-bar-wrap{flex:2}
+.prog-topic-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.prog-topic-fill{height:100%;background:var(--accent);border-radius:4px;transition:width 0.5s}
+.prog-topic-pct{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);width:36px;text-align:right}
+
+/* ── WORKSHEET styles (inline) ── */
+.ws-section-head{
+  font-size:0.88rem;font-weight:900;color:var(--accent);
+  margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);
+}
+.ws-q{
+  background:var(--card);border:1.5px solid var(--border);border-radius:14px;
+  padding:16px;margin-bottom:12px;transition:border-color 0.2s;
+}
+.ws-q.ok{border-color:var(--accent)}
+.ws-q.bad{border-color:var(--accent2)}
+.ws-qlabel{font-size:0.65rem;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.ws-qtext{font-weight:700;font-size:0.93rem;line-height:1.4;margin-bottom:11px}
+.ws-opts2{display:grid;gap:7px}
+.ws-opt2{
+  display:flex;align-items:center;gap:9px;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:9px;
+  padding:9px 13px;cursor:pointer;font-size:0.83rem;font-weight:600;
+  transition:all 0.14s;color:var(--text);
+}
+.ws-opt2:hover:not(:disabled){border-color:var(--accent4)}
+.ws-opt2 .wol{
+  font-family:'DM Mono',monospace;font-size:0.68rem;background:var(--border);
+  border-radius:5px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ws-opt2.wc{border-color:var(--accent);background:rgba(63,185,80,0.1)}
+.ws-opt2.wc .wol{background:var(--accent);color:#0d1117}
+.ws-opt2.ww{border-color:var(--accent2);background:rgba(248,81,73,0.1)}
+.ws-opt2.ww .wol{background:var(--accent2);color:#fff}
+.ws-opt2:disabled{cursor:default}
+.ws-eq{
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:12px 14px;font-family:'DM Mono',monospace;font-size:0.82rem;
+  line-height:2.4;margin-bottom:10px;
+}
+.eq-in{
+  background:transparent;border:none;border-bottom:2px solid var(--accent4);
+  color:var(--text);font-family:'DM Mono',monospace;font-size:0.82rem;
+  min-width:90px;text-align:center;outline:none;padding:0 4px;
+}
+.eq-in.ec{border-color:var(--accent);color:var(--accent)}
+.eq-in.ew{border-color:var(--accent2);color:var(--accent2)}
+.ws-ta{
+  width:100%;background:var(--surface);border:1.5px solid var(--border);
+  border-radius:9px;padding:10px 13px;color:var(--text);font-size:0.85rem;
+  font-family:'Nunito',sans-serif;outline:none;resize:vertical;min-height:70px;
+  margin-bottom:10px;transition:border-color 0.2s;
+}
+.ws-ta:focus{border-color:var(--accent4)}
+.ws-ta.ec{border-color:var(--accent)}
+.ws-ta.ew{border-color:var(--accent2)}
+.ws-check{
+  background:transparent;border:1.5px solid var(--accent4);color:var(--accent4);
+  border-radius:8px;padding:7px 15px;font-family:'Nunito',sans-serif;
+  font-weight:800;font-size:0.78rem;cursor:pointer;transition:all 0.14s;
+}
+.ws-check:hover{background:rgba(88,166,255,0.1)}
+.ws-check:disabled{opacity:0.4;cursor:default}
+.ws-reveal{
+  margin-top:10px;background:rgba(63,185,80,0.06);border:1px solid rgba(63,185,80,0.2);
+  border-radius:8px;padding:10px 13px;font-size:0.8rem;line-height:1.55;display:none;
+}
+.ws-reveal.show{display:block}
+.ws-reveal strong{color:var(--accent)}
+.pun-tbl{border-collapse:collapse}
+.pun-tbl td,.pun-tbl th{border:1.5px solid var(--border);width:68px;height:48px;text-align:center;vertical-align:middle}
+.pun-tbl th{background:rgba(63,185,80,0.1);color:var(--accent);font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:600}
+.pun-in{background:transparent;border:none;outline:none;text-align:center;font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--text);width:60px;cursor:pointer}
+.pun-cell{background:var(--surface)}
+.pun-cell.pc{background:rgba(63,185,80,0.15);color:var(--accent)}
+.pun-cell.pw{background:rgba(248,81,73,0.12);color:var(--accent2)}
+.ws-score-strip{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;
+}
+.ws-score-num{font-size:1.5rem;font-weight:900;color:var(--accent);font-family:'DM Mono',monospace}
+.ws-score-detail{flex:1}
+.ws-score-msg{font-size:0.78rem;color:var(--muted)}
+.ws-score-track{height:4px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden}
+.ws-score-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.5s}
+.ws-tab-row{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.ws-tab-row::-webkit-scrollbar{display:none}
+.ws-tab{
+  flex-shrink:0;background:var(--card);border:1.5px solid var(--border);border-radius:100px;
+  padding:7px 14px;cursor:pointer;font-weight:800;font-size:0.78rem;color:var(--muted);transition:all 0.15s;
+}
+.ws-tab:hover{color:var(--text)}
+.ws-tab.wta{border-color:var(--accent);color:var(--accent);background:rgba(63,185,80,0.08)}
+.ws-sheet2{display:none}
+.ws-sheet2.wsa{display:block;animation:fadeIn 0.25s ease}
+.ws-action-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+
+/* ── EXAM TIPS ── */
+.tip-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:13px 15px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;
+}
+.tip-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+.tip-text{font-size:0.82rem;line-height:1.5}
+.tip-text strong{color:var(--accent)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:480px){
+  .res-grid{grid-template-columns:1fr 1fr}
+  .prog-stat-grid{grid-template-columns:1fr 1fr}
+  .topic-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- XP Toast -->
+<div class="xp-toast" id="xp-toast">+10 XP ⭐</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Nat 5 <span>Admin</span></div>
+  <div class="xp-pill">⭐ <span class="xp-val" id="xp-val">0</span> XP</div>
+  <div class="streak-pill"><span class="fire">🔥</span><span id="streak-val">0</span></div>
+  <div class="lv-badge" id="lv-badge">Lv 1</div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-scroll">
+  <button class="nav-btn active" onclick="nav('practice')" data-page="practice"><span class="nb-icon">📚</span> Practice</button>
+  <button class="nav-btn" onclick="nav('flashcards')" data-page="flashcards"><span class="nb-icon">🃏</span> Flashcards</button>
+  <button class="nav-btn" onclick="nav('worksheet')" data-page="worksheet"><span class="nb-icon">📝</span> Worksheets</button>
+  <button class="nav-btn" onclick="nav('mock')" data-page="mock"><span class="nb-icon">📋</span> Mock Exam</button>
+  <button class="nav-btn" onclick="nav('topics')" data-page="topics"><span class="nb-icon">🗂</span> Topics</button>
+  <button class="nav-btn" onclick="nav('formulas')" data-page="formulas"><span class="nb-icon">🔬</span> Key Facts</button>
+  <button class="nav-btn" onclick="nav('progress')" data-page="progress"><span class="nb-icon">📊</span> Progress</button>
+  <button class="nav-btn" onclick="nav('links')" data-page="links"><span class="nb-icon">🔗</span> Links</button>
+  <button class="nav-btn" onclick="nav('settings')" data-page="settings"><span class="nb-icon">⚙️</span> Settings</button>
+</div>
+
+<!-- ═══════════════ PRACTICE PAGE ═══════════════ -->
+<div class="page active" id="page-practice">
+  <div class="hero">
+    <h1>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Nat 5 <span>Admin</span><br>Scotland</h1>
+    <p>SQA-verified · 110 questions · 5 topics · earn XP as you go!</p>
+  </div>
+
+  <div class="goal-bar" id="goal-bar">
+    <span style="font-size:1.1rem">🎯</span>
+    <div class="goal-bar-track"><div class="goal-bar-fill" id="goal-fill" style="width:0%"></div></div>
+    <div class="goal-label">Daily Goal <span class="goal-val" id="goal-txt">0/10</span></div>
+  </div>
+
+  <div class="section-label">Choose topic & mode</div>
+  <div class="selector-row">
+    <select class="selector" id="topic-sel">
+      <option value="all">🎲 Random Mix</option>
+      <option value="admin_theory">🏢 Admin Theory</option>
+      <option value="spreadsheets">📊 Spreadsheets</option>
+      <option value="databases">🗄️ Databases</option>
+      <option value="word_dtp">📄 Word Processing &amp; DTP</option>
+      <option value="communication">📧 IT Communication</option>
+    </select>
+    <select class="selector" id="type-sel">
+      <option value="all">All Types</option>
+      <option value="mcq">Multiple Choice</option>
+      <option value="fillin">Fill in Blank</option>
+    </select>
+  </div>
+
+  <div id="q-progress-wrap">
+    <div class="q-progress"><div class="q-progress-fill" id="q-progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <div id="question-area">
+    <div class="q-card">
+      <div style="text-align:center;color:var(--muted);padding:20px">
+        <div style="font-size:2rem;margin-bottom:10px">🔬</div>
+        Press New Question to start!
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row" style="margin-top:0">
+    <button class="btn btn-green" onclick="newQuestion()">⟳ New Question</button>
+    <button class="btn btn-ghost" onclick="nav('mock')">📋 Mock Exam</button>
+  </div>
+</div>
+
+<!-- ═══════════════ FLASHCARDS PAGE ═══════════════ -->
+<div class="page" id="page-flashcards">
+  <div class="section-title">🃏 Flashcards</div>
+
+  <div class="selector-row" style="margin-bottom:12px">
+    <select class="selector" id="fc-topic-sel">
+      <option value="all">All Topics</option>
+      <option value="admin_theory">🏢 Admin Theory</option>
+      <option value="spreadsheets">📊 Spreadsheets</option>
+      <option value="databases">🗄️ Databases</option>
+      <option value="word_dtp">📄 Word Processing &amp; DTP</option>
+      <option value="communication">📧 IT Communication</option>
+    </select>
+    <button class="btn btn-blue" onclick="startFlashcards()" style="flex:0;padding:8px 16px;border-radius:10px;font-size:0.82rem">▶ Start</button>
+  </div>
+
+  <div class="fc-progress">
+    <span id="fc-prog-txt">0 / 0</span>
+    <div class="fc-progress-track"><div class="fc-progress-fill" id="fc-prog-fill" style="width:0%"></div></div>
+    <span style="color:var(--accent)">✓ <span id="fc-knew-txt">0</span></span>
+  </div>
+
+  <div class="fc-hint" id="fc-hint">👆 Tap the card to flip it</div>
+
+  <div class="fc-wrap" onclick="flipCard()" id="fc-wrap">
+    <div class="fc-inner" id="fc-inner">
+      <div class="fc-face fc-front">
+        <div class="fc-body">
+          <div class="fc-label">QUESTION</div>
+          <div class="fc-text" id="fc-front-text">Select a topic and press Start to begin</div>
+        </div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-body">
+          <div class="fc-label" style="color:var(--accent4)">ANSWER</div>
+          <div class="fc-text" id="fc-back-text" style="font-size:0.92rem;font-weight:600;color:var(--text)">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-nav">
+    <button class="fc-nav-btn skip" onclick="fcNext(false)">✕ Didn't know</button>
+    <button class="fc-nav-btn knew" onclick="fcNext(true)">✓ Got it!</button>
+  </div>
+</div>
+
+<!-- ═══════════════ WORKSHEET PAGE ═══════════════ -->
+<div class="page" id="page-worksheet">
+  <div class="section-title">📝 Interactive Worksheets</div>
+  <p style="font-size:0.8rem;color:var(--muted);margin-bottom:14px">SQA-style written questions · instant feedback · self-marked</p>
+
+  <div id="ws-score-strip" class="ws-score-strip" style="display:none">
+    <div class="ws-score-num" id="ws-score-num">0/0</div>
+    <div class="ws-score-detail">
+      <div class="ws-score-msg" id="ws-score-msg">Answer questions to see your score</div>
+      <div class="ws-score-track"><div class="ws-score-fill" id="ws-score-fill2" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="ws-tab-row">
+    <button class="ws-tab wta" onclick="wsSwitchSheet(0)">🏢 Admin Theory</button>
+    <button class="ws-tab" onclick="wsSwitchSheet(1)">📊 Spreadsheets & DB</button>
+    <button class="ws-tab" onclick="wsSwitchSheet(2)">📄 Word & Comms</button>
+  </div>
+
+  <!-- SHEET 0: Admin Theory -->
+  <div class="ws-sheet2 wsa" id="wss-0">
+    <div style="background:rgba(88,166,255,0.07);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:0.78rem;color:var(--accent4);line-height:1.5">
+      <strong>SQA Key Areas:</strong> Admin tasks & qualities · Customer service · Health & safety · Security · File management · Corporate image · Electronic communication
+    </div>
+    <div class="ws-section-head">Section A — Customer Service & Corporate Image</div>
+
+    <div class="ws-q" id="wq-at1" data-done="0">
+      <div class="ws-qlabel">Q1 · Multiple Choice</div>
+      <div class="ws-qtext">Which of the following is a BENEFIT of good customer service for an organisation?</div>
+      <div class="ws-opts2">
+        <div class="ws-opt2" onclick="wsMCQ('wq-at1',this,false)"><span class="wol">A</span>Increased customer complaints</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-at1',this,true)"><span class="wol">B</span>Customer loyalty and increased profits/sales</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-at1',this,false)"><span class="wol">C</span>Higher staff turnover and absenteeism</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-at1',this,false)"><span class="wol">D</span>Negative publicity for the organisation</div>
+      </div>
+      <div class="ws-reveal" id="wq-at1-r"><strong>B — Customer loyalty and increased profits.</strong> Benefits of good customer service: customer loyalty, reduced complaints, increased profits/sales, good publicity, lower staff turnover, competitive edge (increased market share), improved efficiency.</div>
+    </div>
+
+    <div class="ws-q" id="wq-at2" data-done="0">
+      <div class="ws-qlabel">Q2 · Short Answer (3 marks)</div>
+      <div class="ws-qtext">Describe THREE features of a corporate image that an organisation might use.</div>
+      <textarea class="ws-ta" id="wq-at2-ta" placeholder="Feature 1:&#10;Feature 2:&#10;Feature 3:"></textarea>
+      <button class="ws-check" onclick="wsReveal('wq-at2')">Show Model Answer</button>
+      <div class="ws-reveal" id="wq-at2-r"><strong>Model answer (1 mark each, any 3):</strong><br>
+      • Standardised colours, fonts, and graphics across all documents. (1)<br>
+      • A company logo used on all materials. (1)<br>
+      • A slogan or tagline. (1)<br>
+      • Staff uniform. (1)<br>
+      • Consistent house style in all IT documents. (1)<br>
+      • Standardised customer service responses. (1)</div>
+    </div>
+
+    <div class="ws-section-head">Section B — Legislation & Security</div>
+
+    <div class="ws-q" id="wq-at3" data-done="0">
+      <div class="ws-qlabel">Q3 · Fill in the Blanks — Legislation</div>
+      <div class="ws-eq">
+        The <input class="eq-in" id="eqat3a" placeholder="?????? & ???????"> Act 1974 requires employers to provide a safe working environment and carry out risk assessments.<br><br>
+        The <input class="eq-in" id="eqat3b" placeholder="???? ?????????"> Act requires organisations to store personal data securely and only use it for the stated purpose.<br><br>
+        The <input class="eq-in" id="eqat3c" placeholder="???????? ??????"> Act makes it illegal to access computer systems without authorisation.
+      </div>
+      <button class="ws-check" onclick="wsEq('wq-at3',['eqat3a','eqat3b','eqat3c'],['health and safety','data protection','computer misuse'])">Check</button>
+      <div class="ws-reveal" id="wq-at3-r"><strong>Health and Safety</strong> at Work Act 1974 · <strong>Data Protection</strong> Act (GDPR) · <strong>Computer Misuse</strong> Act</div>
+    </div>
+
+    <div class="ws-q" id="wq-at4" data-done="0">
+      <div class="ws-qlabel">Q4 · Multiple Choice</div>
+      <div class="ws-qtext">Which of the following is a BENEFIT of good file management?</div>
+      <div class="ws-opts2">
+        <div class="ws-opt2" onclick="wsMCQ('wq-at4',this,false)"><span class="wol">A</span>Files take longer to find</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-at4',this,true)"><span class="wol">B</span>Saves time finding files and improves efficiency</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-at4',this,false)"><span class="wol">C</span>Files are more likely to be duplicated</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-at4',this,false)"><span class="wol">D</span>Wastes network storage space</div>
+      </div>
+      <div class="ws-reveal" id="wq-at4-r"><strong>B — Saves time and improves efficiency.</strong> Good file management benefits: saves time finding files, saves network space, reduces stress, improves efficiency leading to good reputation, no duplication so files are more up to date.</div>
+    </div>
+
+    <div class="ws-q" id="wq-at5" data-done="0">
+      <div class="ws-qlabel">Q5 · Short Answer (2 marks)</div>
+      <div class="ws-qtext">State TWO consequences of using UNRELIABLE internet sources of information in business.</div>
+      <textarea class="ws-ta" id="wq-at5-ta" placeholder="Consequence 1:&#10;Consequence 2:"></textarea>
+      <button class="ws-check" onclick="wsReveal('wq-at5')">Show Model Answer</button>
+      <div class="ws-reveal" id="wq-at5-r"><strong>Model answer (1 mark each, any 2):</strong><br>
+      • Wrong decisions are made by the organisation. (1)<br>
+      • Meetings are missed (e.g. wrong venue address used). (1)<br>
+      • The organisation loses money. (1)<br>
+      • The organisation gets a bad reputation. (1)<br>
+      • The organisation loses opportunities. (1)</div>
+    </div>
+
+    <div class="ws-action-row">
+      <button class="btn btn-green" onclick="wsMarkAll(0)" style="flex:1">Mark All</button>
+      <button class="btn btn-ghost" onclick="wsReset2(0)" style="flex:1">Reset</button>
+    </div>
+  </div>
+
+  <!-- SHEET 1: Spreadsheets & Databases -->
+  <div class="ws-sheet2" id="wss-1">
+    <div style="background:rgba(88,166,255,0.07);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:0.78rem;color:var(--accent4);line-height:1.5">
+      <strong>SQA Key Areas:</strong> Spreadsheet functions · Cell references · Charts · Database searching/sorting · Forms, reports & labels
+    </div>
+    <div class="ws-section-head">Section A — Spreadsheets</div>
+
+    <div class="ws-q" id="wq-sp1" data-done="0">
+      <div class="ws-qlabel">Q1 · Multiple Choice</div>
+      <div class="ws-qtext">A formula must always refer to the same cell (e.g. a tax rate) regardless of where it is copied. Which type of cell reference should be used?</div>
+      <div class="ws-opts2">
+        <div class="ws-opt2" onclick="wsMCQ('wq-sp1',this,false)"><span class="wol">A</span>Relative reference (e.g. B2)</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-sp1',this,true)"><span class="wol">B</span>Absolute reference (e.g. $B$2)</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-sp1',this,false)"><span class="wol">C</span>Named range</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-sp1',this,false)"><span class="wol">D</span>A relative reference with no $ signs</div>
+      </div>
+      <div class="ws-reveal" id="wq-sp1-r"><strong>B — Absolute reference ($B$2).</strong> The dollar signs lock both the column and row, preventing them from changing when the formula is copied. Used whenever a formula must always reference the same cell (e.g. a VAT rate, discount percentage).</div>
+    </div>
+
+    <div class="ws-q" id="wq-sp2" data-done="0">
+      <div class="ws-qlabel">Q2 · Fill in the Blanks — Spreadsheet Functions</div>
+      <div class="ws-eq">
+        =<input class="eq-in" id="eqsp2a" placeholder="???????">(B2:B20) — finds the highest value in the range<br>
+        =<input class="eq-in" id="eqsp2b" placeholder="???????">(B2:B20) — finds the average of all values<br>
+        =<input class="eq-in" id="eqsp2c" placeholder="??">(D5&gt;=50,"Pass","Fail") — tests a condition and returns a value<br>
+        =<input class="eq-in" id="eqsp2d" placeholder="?????">(B2:B20) — counts cells containing numbers
+      </div>
+      <button class="ws-check" onclick="wsEq('wq-sp2',['eqsp2a','eqsp2b','eqsp2c','eqsp2d'],['MAX','AVERAGE','IF','COUNT'])">Check</button>
+      <div class="ws-reveal" id="wq-sp2-r"><strong>=MAX</strong> (highest) · <strong>=AVERAGE</strong> (mean) · <strong>=IF</strong> (conditional) · <strong>=COUNT</strong> (count numbers). Also know: =MIN (lowest), =SUM (total), =COUNTA (count any data).</div>
+    </div>
+
+    <div class="ws-section-head">Section B — Databases</div>
+
+    <div class="ws-q" id="wq-db1" data-done="0">
+      <div class="ws-qlabel">Q3 · Multiple Choice</div>
+      <div class="ws-qtext">A database search needs to find all employees with a salary GREATER THAN OR EQUAL TO £25,000. Which operator should be used?</div>
+      <div class="ws-opts2">
+        <div class="ws-opt2" onclick="wsMCQ('wq-db1',this,false)"><span class="wol">A</span>Salary &gt; 25000</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-db1',this,false)"><span class="wol">B</span>Salary = 25000</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-db1',this,true)"><span class="wol">C</span>Salary &gt;= 25000</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-db1',this,false)"><span class="wol">D</span>Salary NOT 25000</div>
+      </div>
+      <div class="ws-reveal" id="wq-db1-r"><strong>C — Salary &gt;= 25000.</strong> >= means greater than OR equal to — finds all records where salary is £25,000 or more. > alone would exclude those earning exactly £25,000. = only finds exactly £25,000.</div>
+    </div>
+
+    <div class="ws-q" id="wq-db2" data-done="0">
+      <div class="ws-qlabel">Q4 · Short Answer (3 marks)</div>
+      <div class="ws-qtext">Describe the difference between a database FORM, REPORT, and LABEL.</div>
+      <textarea class="ws-ta" id="wq-db2-ta" placeholder="Form:&#10;Report:&#10;Label:"></textarea>
+      <button class="ws-check" onclick="wsReveal('wq-db2')">Show Model Answer</button>
+      <div class="ws-reveal" id="wq-db2-r"><strong>Model answer (1 mark each):</strong><br>
+      <strong>Form:</strong> displays and allows input of ONE record at a time in an easy-to-use layout — used for data entry and editing. (1)<br>
+      <strong>Report:</strong> presents selected data from one or more tables in a professional, formatted layout with headers/footers — used for printing and presenting data. (1)<br>
+      <strong>Label:</strong> produces address labels or name badges from database records — one label per record in a grid format ready for label sheets. (1)</div>
+    </div>
+
+    <div class="ws-action-row">
+      <button class="btn btn-green" onclick="wsMarkAll(1)" style="flex:1">Mark All</button>
+      <button class="btn btn-ghost" onclick="wsReset2(1)" style="flex:1">Reset</button>
+    </div>
+  </div>
+
+  <!-- SHEET 2: Word Processing & Communication -->
+  <div class="ws-sheet2" id="wss-2">
+    <div style="background:rgba(88,166,255,0.07);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:0.78rem;color:var(--accent4);line-height:1.5">
+      <strong>SQA Key Areas:</strong> Business documents · Mail merge · House style · Email features · E-diary · Internet research · Presentations
+    </div>
+    <div class="ws-section-head">Section A — Word Processing & Documents</div>
+
+    <div class="ws-q" id="wq-wp1" data-done="0">
+      <div class="ws-qlabel">Q1 · Multiple Choice</div>
+      <div class="ws-qtext">A manager needs to send personalised letters to 500 customers using their names and addresses from a database. What is the MOST efficient method?</div>
+      <div class="ws-opts2">
+        <div class="ws-opt2" onclick="wsMCQ('wq-wp1',this,true)"><span class="wol">A</span>Mail merge — combining the letter template with the database</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-wp1',this,false)"><span class="wol">B</span>Typing each letter individually</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-wp1',this,false)"><span class="wol">C</span>Photocopying a generic letter 500 times</div>
+        <div class="ws-opt2" onclick="wsMCQ('wq-wp1',this,false)"><span class="wol">D</span>Emailing a single identical letter to everyone</div>
+      </div>
+      <div class="ws-reveal" id="wq-wp1-r"><strong>A — Mail merge.</strong> Mail merge combines a main document (with merge fields) and a data source (database/spreadsheet). It automatically produces 500 personalised letters — each addressed individually — far more efficiently than typing each one separately.</div>
+    </div>
+
+    <div class="ws-q" id="wq-wp2" data-done="0">
+      <div class="ws-qlabel">Q2 · Short Answer (2 marks)</div>
+      <div class="ws-qtext">State the difference between an AGENDA and MINUTES of a meeting.</div>
+      <textarea class="ws-ta" id="wq-wp2-ta" placeholder="Agenda:&#10;Minutes:"></textarea>
+      <button class="ws-check" onclick="wsReveal('wq-wp2')">Show Model Answer</button>
+      <div class="ws-reveal" id="wq-wp2-r"><strong>Agenda:</strong> circulated BEFORE the meeting — lists the topics to be discussed, time, date, and venue. (1)<br><strong>Minutes:</strong> written record produced AFTER the meeting — records what was discussed, decisions made, and actions agreed. (1)</div>
+    </div>
+
+    <div class="ws-section-head">Section B — Electronic Communication</div>
+
+    <div class="ws-q" id="wq-ec1" data-done="0">
+      <div class="ws-qlabel">Q3 · Fill in the Blanks — Email</div>
+      <div class="ws-eq">
+        The <input class="eq-in" id="eqec1a" placeholder="??"> field sends a copy to additional recipients who are visible to all other recipients.<br>
+        The <input class="eq-in" id="eqec1b" placeholder="???" style="min-width:50px"> field sends a hidden copy — the recipient is not visible to other recipients.<br>
+        Automatically adding your name and contact details to every email is done using an email <input class="eq-in" id="eqec1c" placeholder="?????????">
+      </div>
+      <button class="ws-check" onclick="wsEq('wq-ec1',['eqec1a','eqec1b','eqec1c'],['CC','BCC','signature'])">Check</button>
+      <div class="ws-reveal" id="wq-ec1-r"><strong>CC</strong> (carbon copy) — visible to all. <strong>BCC</strong> (blind carbon copy) — hidden from all other recipients. Email <strong>signature</strong> — auto-appended contact details at the bottom of every email.</div>
+    </div>
+
+    <div class="ws-q" id="wq-ec2" data-done="0">
+      <div class="ws-qlabel">Q4 · Short Answer (3 marks)</div>
+      <div class="ws-qtext">Describe THREE benefits of using an e-diary compared to a paper diary.</div>
+      <textarea class="ws-ta" id="wq-ec2-ta" placeholder="Benefit 1:&#10;Benefit 2:&#10;Benefit 3:"></textarea>
+      <button class="ws-check" onclick="wsReveal('wq-ec2')">Show Model Answer</button>
+      <div class="ws-reveal" id="wq-ec2-r"><strong>Model answer (1 mark each, any 3):</strong><br>
+      • Automatic reminders — alerts sent so appointments are not missed. (1)<br>
+      • Recurring appointments set once and repeat automatically. (1)<br>
+      • Easy to share with colleagues — view their availability. (1)<br>
+      • Accessible on multiple devices (phone, tablet, PC). (1)<br>
+      • Can be backed up — no risk of losing it. (1)<br>
+      • Integrated with email — meeting invites sent automatically. (1)</div>
+    </div>
+
+    <div class="ws-action-row">
+      <button class="btn btn-green" onclick="wsMarkAll(2)" style="flex:1">Mark All</button>
+      <button class="btn btn-ghost" onclick="wsReset2(2)" style="flex:1">Reset</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ MOCK EXAM PAGE
+
+<!-- ═══════════════ MOCK EXAM PAGE ═══════════════ -->
+<div class="page" id="page-mock">
+  <div id="mock-home">
+    <div class="exam-hero">
+      <h2>📋 Mock Exam — Nat 5 Biology</h2>
+      <p>Based on the SQA curriculum. Two sittings just like the real exam.<br><strong>Paper 1:</strong> Short answers · 25 marks · 30 min &nbsp;|&nbsp; <strong>Paper 2:</strong> Extended · 25 marks · 40 min</p>
+    </div>
+    <div class="exam-cards">
+      <div class="exam-card" onclick="startMock('paper1')">
+        <div class="ec-icon">📄</div>
+        <div><div class="ec-title">Paper 1 — Mixed Questions</div><div class="ec-desc">25 questions · 30 minutes · all units</div></div>
+      </div>
+      <div class="exam-card" onclick="startMock('paper2')">
+        <div class="ec-icon">📝</div>
+        <div><div class="ec-title">Paper 2 — Mixed Questions</div><div class="ec-desc">25 questions · 40 minutes · all units</div></div>
+      </div>
+    </div>
+    <div class="section-title" style="margin-top:8px">📋 Exam Tips</div>
+    <div class="tip-card"><div class="tip-icon">✏️</div><div class="tip-text"><strong>Use precise terminology</strong> — the mark scheme requires specific terms (e.g. "absolute cell reference", "primary key", "relational database", "mail merge", "house style", "corporate image").</div></div>
+    <div class="tip-card"><div class="tip-icon">🔬</div><div class="tip-text"><strong>Learn the equations</strong> — aerobic respiration, photosynthesis, and both forms of anaerobic respiration are common exam questions.</div></div>
+    <div class="tip-card"><div class="tip-icon">📊</div><div class="tip-text"><strong>Show your reasoning</strong> — for 2-mark questions, give two separate points. Watch for command words: "describe", "explain", "state".</div></div>
+    <div class="tip-card"><div class="tip-icon">🧬</div><div class="tip-text"><strong>Genetics questions</strong> — always show your Punnett square working. State the genotype AND phenotype ratio in your answer.</div></div>
+    <div class="tip-card"><div class="tip-icon">⏱</div><div class="tip-text"><strong>Manage your time</strong> — if stuck, move on and come back. Never leave a blank — an attempt may get a mark.</div></div>
+  </div>
+  <div id="mock-exam" style="display:none">
+    <div class="exam-timer-bar">
+      <span style="font-size:1rem">⏱</span>
+      <span class="exam-timer-val" id="mock-timer">30:00</span>
+      <span style="font-size:0.78rem;color:var(--muted)" id="mock-paper-label">Paper 1</span>
+      <span class="exam-marks">Score: <span id="mock-score-live">0</span> / <span id="mock-total-live">25</span></span>
+    </div>
+    <div class="q-progress"><div class="q-progress-fill" id="mock-progress-fill" style="width:0%"></div></div>
+    <div id="mock-q-area"></div>
+    <div class="btn-row">
+      <button class="btn btn-green" id="mock-submit-btn" onclick="mockSubmit()">Submit Answer ✓</button>
+      <button class="btn btn-ghost" onclick="mockSkip()">Skip →</button>
+      <button class="btn btn-red" onclick="mockEnd()">End Exam</button>
+    </div>
+  </div>
+  <div id="mock-results" style="display:none">
+    <div class="results-hero">
+      <div class="score-ring">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <circle cx="65" cy="65" r="54" fill="none" stroke="#30363d" stroke-width="10"/>
+          <circle id="mock-ring" cx="65" cy="65" r="54" fill="none" stroke="#3fb950" stroke-width="10" stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="339"/>
+        </svg>
+        <div class="score-ring-text">
+          <div class="score-big" id="mock-pct">0%</div>
+          <div class="score-lbl">SCORE</div>
+        </div>
+      </div>
+      <div class="grade-pill" id="mock-grade"></div>
+      <div style="font-size:1rem;font-weight:800" id="mock-msg"></div>
+      <div style="font-size:0.8rem;color:var(--muted);margin-top:4px" id="mock-sub"></div>
+      <div class="res-grid">
+        <div class="res-item"><div class="res-val" id="mr-correct" style="color:var(--accent)">0</div><div class="res-key">CORRECT</div></div>
+        <div class="res-item"><div class="res-val" id="mr-wrong" style="color:var(--accent2)">0</div><div class="res-key">WRONG</div></div>
+        <div class="res-item"><div class="res-val" id="mr-time">—</div><div class="res-key">TIME</div></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="restartMock()">Try Again</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('mock-home').style.display='block';document.getElementById('mock-results').style.display='none'">← Exams</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TOPICS PAGE ═══════════════ -->
+<div class="page" id="page-topics">
+  <div class="section-title">🗂 Topics</div>
+  <p style="font-size:0.8rem;color:var(--muted);margin-bottom:14px">Tap a topic to practise it directly</p>
+  <div class="topic-grid" id="topic-grid-page"></div>
+</div>
+
+<!-- ═══════════════ KEY FACTS PAGE ═══════════════ -->
+<div class="page" id="page-formulas">
+  <div class="section-title">🔬 Key Facts & Equations</div>
+  <p style="font-size:0.8rem;color:var(--muted);margin-bottom:16px">Essential knowledge for the SQA exam — learn these!</p>
+
+  <div class="formula-section">
+    <h3>🔬 Cell Biology</h3>
+    <div class="formula-cards">
+      <div class="formula-card"><div class="formula-name">Aerobic Respiration</div><div class="formula-val">Glucose + Oxygen → CO₂ + Water + ATP<br>Occurs in: cytoplasm (glycolysis) + mitochondria</div></div>
+      <div class="formula-card"><div class="formula-name">Anaerobic — Yeast</div><div class="formula-val">Glucose → Ethanol + CO₂ (+ 2 ATP)</div></div>
+      <div class="formula-card"><div class="formula-name">Anaerobic — Muscle</div><div class="formula-val">Glucose → Lactic acid (+ 2 ATP)</div></div>
+      <div class="formula-card"><div class="formula-name">DNA Base Pairing</div><div class="formula-val">A — T &nbsp;&nbsp;|&nbsp;&nbsp; G — C<br>Double helix held by complementary base pairs</div></div>
+      <div class="formula-card"><div class="formula-name">Osmosis</div><div class="formula-val">Water moves: HIGH water conc. → LOW water conc.<br>Through a selectively permeable membrane (passive)</div></div>
+      <div class="formula-card"><div class="formula-name">Protein Synthesis</div><div class="formula-val">DNA → mRNA (transcription, in nucleus)<br>mRNA → Protein (translation, at ribosome)</div></div>
+      <div class="formula-card"><div class="formula-name">Genetic Engineering (5 steps)</div><div class="formula-val">1. Identify gene → 2. Extract gene (restriction enzymes) → 3. Extract plasmid → 4. Insert gene into plasmid (ligase) → 5. Insert plasmid into host bacterium</div></div>
+    </div>
+  </div>
+
+  <div class="formula-section">
+    <h3>🦠 Multicellular Organisms</h3>
+    <div class="formula-cards">
+      <div class="formula-card"><div class="formula-name">Reflex Arc</div><div class="formula-val">Receptor → Sensory neuron → Relay neuron → Motor neuron → Effector</div></div>
+      <div class="formula-card"><div class="formula-name">Blood Glucose Regulation</div><div class="formula-val">High glucose → Pancreas releases Insulin → Liver converts glucose→glycogen<br>Low glucose → Pancreas releases Glucagon → Liver converts glycogen→glucose</div></div>
+      <div class="formula-card"><div class="formula-name">Brain Regions</div><div class="formula-val">Cerebrum: thought/memory &nbsp;|&nbsp; Cerebellum: balance/coordination<br>Medulla: heart rate/breathing (unconscious)</div></div>
+      <div class="formula-card"><div class="formula-name">Genetics Terms</div><div class="formula-val">Dominant (capital) = expressed with 1 copy<br>Recessive (lowercase) = needs 2 copies (homozygous)<br>Heterozygous = Aa &nbsp;|&nbsp; Homozygous = AA or aa</div></div>
+      <div class="formula-card"><div class="formula-name">Plant Transport</div><div class="formula-val">Xylem: water + minerals UPWARD (dead cells)<br>Phloem: sugars UP and DOWN (living cells)</div></div>
+      <div class="formula-card"><div class="formula-name">Transpiration Rate ↑ when…</div><div class="formula-val">↑ Wind speed &nbsp;|&nbsp; ↓ Humidity &nbsp;|&nbsp; ↑ Temperature &nbsp;|&nbsp; ↑ Light intensity</div></div>
+    </div>
+  </div>
+
+  <div class="formula-section">
+    <h3>🌍 Life on Earth</h3>
+    <div class="formula-cards">
+      <div class="formula-card"><div class="formula-name">Photosynthesis</div><div class="formula-val">CO₂ + H₂O → Glucose + O₂ (using light energy, in chloroplasts)<br>Limiting factors: light intensity, CO₂ concentration, temperature</div></div>
+      <div class="formula-card"><div class="formula-name">Energy Transfer in Food Chains</div><div class="formula-val">Only ~10% of energy transfers between trophic levels<br>~90% lost as heat (respiration, movement, waste)</div></div>
+      <div class="formula-card"><div class="formula-name">Nitrogen Cycle</div><div class="formula-val">Nitrogen-fixing bacteria: N₂ → nitrates (usable)<br>Decomposers: dead matter → ammonium<br>Denitrifying bacteria: nitrates → N₂ (back to atmosphere)</div></div>
+      <div class="formula-card"><div class="formula-name">Natural Selection</div><div class="formula-val">Variation → Selection pressure → Survival of fittest → Reproduction → Allele frequency changes over generations</div></div>
+      <div class="formula-card"><div class="formula-name">Ecological Relationships</div><div class="formula-val">Predation: predator benefits, prey harmed<br>Mutualism: both benefit (e.g. Rhizobium + legumes)<br>Parasitism: parasite benefits, host harmed<br>Competition: intraspecific (same sp.) / interspecific (diff. sp.)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PROGRESS PAGE ═══════════════ -->
+<div class="page" id="page-progress">
+  <div class="section-title">📊 Your Progress</div>
+  <div class="prog-stat-grid">
+    <div class="prog-stat"><div class="prog-stat-val" id="ps-total">0</div><div class="prog-stat-key">ANSWERED</div></div>
+    <div class="prog-stat"><div class="prog-stat-val" id="ps-correct">0</div><div class="prog-stat-key">CORRECT</div></div>
+    <div class="prog-stat"><div class="prog-stat-val" id="ps-streak">0</div><div class="prog-stat-key">BEST STREAK</div></div>
+    <div class="prog-stat"><div class="prog-stat-val" id="ps-xp">0</div><div class="prog-stat-key">TOTAL XP</div></div>
+  </div>
+  <div class="section-label" style="margin-bottom:10px">Topic Accuracy</div>
+  <div id="topic-prog-rows"></div>
+  <button class="btn btn-red" onclick="resetAllProgress()" style="margin-top:16px;width:100%">🔄 Reset All Progress</button>
+</div>
+
+<!-- ═══════════════ LINKS PAGE ═══════════════ -->
+<div class="page" id="page-links">
+  <div class="section-title">🔗 Helpful Links</div>
+  <div class="links-grid">
+    <a class="link-card" href="https://www.sqa.org.uk/sqa/47427.html" target="_blank" rel="noopener">
+      <div class="link-icon">🏛</div>
+      <div><div class="link-title">SQA — Nat 5 Biology</div><div class="link-desc">Official past papers, marking schemes & course spec</div></div>
+    </a>
+    <a class="link-card" href="https://www.bbc.co.uk/bitesize/subjects/z4882hv" target="_blank" rel="noopener">
+      <div class="link-icon">📺</div>
+      <div><div class="link-title">BBC Bitesize — Nat 5 Biology</div><div class="link-desc">Videos, notes and revision for every topic</div></div>
+    </a>
+    <a class="link-card" href="https://scholar.hw.ac.uk" target="_blank" rel="noopener">
+      <div class="link-icon">🎓</div>
+      <div><div class="link-title">SCHOLAR (Heriot-Watt)</div><div class="link-desc">Detailed online course for Scottish Nat 5 Biology</div></div>
+    </a>
+    <a class="link-card" href="https://www.understandingstandards.org.uk/Subjects/Biology" target="_blank" rel="noopener">
+      <div class="link-icon">📖</div>
+      <div><div class="link-title">Understanding Standards</div><div class="link-desc">SQA exemplar answers and marking guidance</div></div>
+    </a>
+    <a class="link-card" href="https://blogs.glowscotland.org.uk/gc/n5biology/" target="_blank" rel="noopener">
+      <div class="link-icon">🔬</div>
+      <div><div class="link-title">Glow — Nat 5 Biology Resources</div><div class="link-desc">Teacher-created notes and resources by key area</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════ SETTINGS PAGE ═══════════════ -->
+<div class="page" id="page-settings">
+  <div class="section-title">⚙️ Settings</div>
+  <div class="settings-card">
+    <h3>Your Profile</h3>
+    <div class="setting-row">
+      <span class="setting-label">Your name</span>
+      <input class="setting-input" id="set-name" placeholder="e.g. Eilidh" style="flex:1">
+    </div>
+    <div class="setting-row">
+      <span class="setting-label">Daily question goal</span>
+      <select class="setting-input" id="set-goal">
+        <option value="5">5 questions</option>
+        <option value="10" selected>10 questions</option>
+        <option value="20">20 questions</option>
+        <option value="30">30 questions</option>
+      </select>
+    </div>
+    <button class="btn btn-green" onclick="saveSettings()" style="margin-top:10px;border:none">💾 Save</button>
+  </div>
+  <div class="settings-card">
+    <h3>ℹ️ About</h3>
+    <p style="font-size:0.82rem;line-height:1.6;color:var(--muted)">
+      Covers all areas of the SQA Nat 5 Administration &amp; IT course: Admin Theory, Spreadsheets, Databases, Word Processing &amp; DTP, and IT Communication.<br><br>
+      ✅ Verified against SQA Course Spec <strong>C801 75</strong> (valid from 2017–18, confirmed current 2025–26).<br><br>
+      110+ practice questions · Interactive worksheets · Mock exam · Key facts reference · XP levelling system.<br><br>
+      Progress saves automatically in your browser.
+    </p>
+  </div>
+</div>
+
+<script>
+// ✅ SQA Nat 5 Administration & IT Course Spec C801 75 (valid 2017-18, confirmed current 2025-26)
+// Two areas: Theory | IT Applications
+// Question paper: Spreadsheet 20 marks | Database 20 marks | Theory 10 marks (50 total)
+// Assignment: Word-processing/DTP 30 marks | Communication 30 marks | Theory 10 marks (70 total)
+const TOPICS = [
+  { id: 'admin_theory',  name: 'Administration Theory', icon: '🏢', sub: 'Admin tasks & qualities · Customer service · Health & safety · Security · File management · Corporate image · Electronic communication' },
+  { id: 'spreadsheets',  name: 'Spreadsheets',           icon: '📊', sub: 'Formulae · Functions · Charts · Formatting · Printing · Features & benefits' },
+  { id: 'databases',     name: 'Databases',               icon: '🗄️', sub: 'Relational databases · Searching · Sorting · Forms · Reports · Features & benefits' },
+  { id: 'word_dtp',      name: 'Word Processing & DTP',   icon: '📄', sub: 'Business documents · Formatting · Mail merge · House style · Features & benefits' },
+  { id: 'communication', name: 'IT Communication',        icon: '📧', sub: 'Email · E-diary · Internet research · Presentations · Methods & benefits' },
+];
+
+const QUESTIONS = [
+  // ══════════════════════════════════════════════════════════
+  // ADMINISTRATION THEORY (30 questions)
+  // ══════════════════════════════════════════════════════════
+  {topic:'admin_theory',type:'mcq',q:'Which of the following is a TASK (duty) of an administrator?',
+    opts:['Setting company profit targets','Creating and updating spreadsheets, organising meetings, and managing files','Designing new products','Making strategic business decisions'],
+    ans:1,explain:'Administrator tasks/duties include: creating and updating spreadsheets/databases/documents, booking meeting rooms and venues, organising travel and accommodation, organising and storing files correctly, taking minutes, dealing with correspondence, and supporting events.'},
+  {topic:'admin_theory',type:'mcq',q:'Which of the following is a SKILL/QUALITY of a good administrator?',
+    opts:['Preferring to work alone at all times','Being organised, a good communicator, tactful, and able to multitask','Making all decisions independently without consulting others','Ignoring deadlines to ensure perfect work'],
+    ans:1,explain:'Administrator skills/qualities include: organised, good communicator, team player, cooperative, willing to learn, ability to multitask, ability to follow instructions, good IT skills, patient, tactful/discreet, and approachable.'},
+  {topic:'admin_theory',type:'mcq',q:'Which of the following is a BENEFIT of good customer service?',
+    opts:['Increased customer complaints','Higher staff turnover','Customer loyalty and increased profits/sales','Negative publicity for the organisation'],
+    ans:2,explain:'Benefits of good customer service: customer loyalty, reduced complaints, increased profits/sales, good publicity, lower staff turnover/less absenteeism, competitive edge (increased market share), improved efficiency/productivity, reduced waste.'},
+  {topic:'admin_theory',type:'mcq',q:'Which of the following is a CONSEQUENCE of POOR customer service?',
+    opts:['Increased profits and market share','Higher customer loyalty','Reduced complaints','Negative publicity and decreased profits/sales'],
+    ans:3,explain:'Consequences of poor customer service: increased customer complaints, decreased profits/sales/increased costs, negative publicity, higher staff turnover/absenteeism, decreased market share/fewer customers, lower efficiency/productivity, increased waste.'},
+  {topic:'admin_theory',type:'mcq',q:'The Health and Safety at Work Act 1974 (HASAWA) requires employers to:',
+    opts:['Only protect managers from workplace hazards','Provide a safe working environment, conduct risk assessments, and ensure all employees are trained in health and safety','Let employees identify hazards themselves','Ignore Display Screen Equipment regulations'],
+    ans:1,explain:'The Health and Safety at Work Act 1974 (HASAWA) requires employers to: provide a safe workplace, carry out risk assessments, provide training (induction), identify and remove hazards, and follow specific regulations (DSE, fire safety, first aid). Employees must cooperate with safety procedures.'},
+  {topic:'admin_theory',type:'mcq',q:'Display Screen Equipment (DSE) regulations relate to:',
+    opts:['The quality of printed documents','Protecting employees who use computer screens regularly from health risks such as eye strain and repetitive strain injury (RSI)','The speed of internet connections in the office','Rules about using mobile phones at work'],
+    ans:1,explain:'DSE regulations protect employees who regularly use computer monitors/screens: employers must provide regular eye tests, ensure correct workstation setup (chair height, screen position, keyboard placement), provide adequate breaks from screen work, and train staff on DSE risks.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is an organisational responsibility for SECURITY OF PEOPLE?',
+    opts:['Issuing usernames and passwords to employees','Installing secure entry systems to control who can access the building','Applying security marking to equipment','Encrypting computer files'],
+    ans:1,explain:'Security of people: installing CCTV, secure entry systems (key fobs, swipe cards, pin codes, receptionists), visitor sign-in books, security guards. Security of property: security marking, locks. Security of information: passwords, encryption, data protection.'},
+  {topic:'admin_theory',type:'mcq',q:'The DATA PROTECTION ACT requires organisations to:',
+    opts:['Share all customer data freely with other organisations','Store personal data securely, only use it for the stated purpose, keep it accurate, and not keep it longer than necessary','Sell customer information to marketing companies','Allow anyone to access any files stored on company computers'],
+    ans:1,explain:'The Data Protection Act requires organisations to: process data lawfully and fairly, collect data for specific purposes only, keep data accurate and up to date, not keep data longer than necessary, store it securely, and allow individuals to access their own data.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is a FEATURE OF A RELIABLE internet source of information?',
+    opts:['It was last updated 10 years ago','It is anonymous with no author listed','It is non-biased, accurate, regularly updated, and from a reputable author/organisation','It contains many advertisements'],
+    ans:2,explain:'Features of reliable internet sources: non-biased, complete/sufficient, accurate, regularly updated, reputation of author/organisation (e.g. government sites, academic institutions, well-known organisations). Always check who published it and when.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is a CONSEQUENCE of using UNRELIABLE internet sources?',
+    opts:['Better decisions being made by the organisation','Good reputation for the organisation','Wrong decisions being made, missed meetings, losing money, or damaging the organisation\'s reputation','Increased efficiency and productivity'],
+    ans:2,explain:'Consequences of using unreliable internet sources: wrong decisions made, missed meetings (e.g. wrong venue address), organisation gets a bad reputation, loses money, loses opportunities. Always verify sources before using information for business decisions.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is a BENEFIT of good FILE MANAGEMENT?',
+    opts:['Wastes time finding files','Causes more stress for employees','Saves time finding files, saves network space, improves efficiency, and gives a good reputation','Leads to duplication of files which causes confusion'],
+    ans:2,explain:'Benefits of good file management: saves time finding files, saves space on network, less stress for employees, improved efficiency leads to a good reputation, no duplication means files are more likely to be up to date.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is a CONSEQUENCE of POOR file management?',
+    opts:['Files are easy to find quickly','Network space is saved','Employees have less stress','Time is wasted finding files and files may be duplicated or out of date'],
+    ans:3,explain:'Consequences of poor file management: wastes time finding files, wastes network space, more stress for employees, lower efficiency leading to a poor reputation, duplication meaning files are less likely to be up to date.'},
+  {topic:'admin_theory',type:'mcq',q:'Which of the following is a FEATURE of corporate image?',
+    opts:['Every employee using different fonts and colours in documents','Standardised colours, fonts, graphics, logo, slogan, and consistent house style across all documents and communications','Employees choosing their own uniform','Each department having a different logo'],
+    ans:1,explain:'Corporate image features: standardised colours, fonts, graphics, logo, slogan, staff uniform, store layout, standardised responses to FAQs, standardised customer service, consistent presentation of IT documents using a house style.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is a BENEFIT of having a positive corporate image?',
+    opts:['Customers find it harder to recognise the organisation','Staff are less consistent in how they deal with customers','No standardised approach to customer service','Instantly recognisable brand, more professional reputation, and consistent customer service'],
+    ans:3,explain:'Benefits of corporate image: instantly recognisable brand, more professional reputation, staff are more consistent so customers are dealt with fairly, builds customer trust and loyalty, and differentiates the organisation from competitors.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is an example of ELECTRONIC COMMUNICATION?',
+    opts:['Sending a letter by post','Calling someone on a landline telephone','Email, video conferencing, e-diary, social media, and webinars','Handing a memo to a colleague in person'],
+    ans:2,explain:'Electronic communication methods: email, e-diary, blog, podcast/vodcast, presentation, social media, video/audio conferencing, webinar, website. Each has different features, uses, and benefits suited to different communication needs in the workplace.'},
+  {topic:'admin_theory',type:'mcq',q:'Which is a BENEFIT of using email for business communication?',
+    opts:['Messages can only be sent to one person at a time','Emails cannot be stored for future reference','Fast, cheap, can attach files, can be sent to multiple recipients simultaneously, and provides a written record','Emails are always read immediately'],
+    ans:2,explain:'Benefits of email: fast delivery, cheap (no postage), can send to multiple recipients at once, attachments can be included, provides a written record of communication, can be accessed from anywhere, messages can be stored and organised.'},
+  {topic:'admin_theory',type:'mcq',q:'Which of the following is a FEATURE of good customer service in an organisation?',
+    opts:['Telling customers to find information themselves','Ignoring customer complaints','Ensuring all staff know the products and services offered and that all queries are dealt with quickly and politely','Making customers wait as long as possible'],
+    ans:2,explain:'Features of good customer service: using customer feedback forms, providing all staff with a customer service policy, ensuring staff know all products/services, dealing with queries quickly and politely, monitoring staff performance, hiring suitable staff, following complaints procedures.'},
+  {topic:'admin_theory',type:'mcq',q:'What should an organisation do to promote SECURITY OF INFORMATION?',
+    opts:['Allow all staff access to all files','Share passwords between employees','Issue individual usernames and passwords, use encryption, and back up data regularly','Leave computers logged in when not in use'],
+    ans:2,explain:'Security of information: issue individual usernames and passwords, use encryption, regular data backups, set access levels (not everyone can access all files), password-protect documents, and follow the Data Protection Act and Computer Misuse Act.'},
+  {topic:'admin_theory',type:'mcq',q:'INDUCTION TRAINING for a new employee typically covers:',
+    opts:['Advanced specialist technical skills','Only IT training','Health and safety, company policies, their role, who their colleagues are, and an introduction to the organisation\'s systems and procedures','Only customer service skills'],
+    ans:2,explain:'Induction training for new employees covers: health and safety (fire exits, first aid, hazards), company policies and procedures, their specific role and responsibilities, introduction to colleagues, IT systems login, security procedures, and organisational structure.'},
+  {topic:'admin_theory',type:'mcq',q:'The COMPUTER MISUSE ACT protects against:',
+    opts:['Using a computer for too long each day','Unauthorised access to computer systems and data, spreading viruses, and hacking','Using social media at work','Printing too many documents'],
+    ans:1,explain:'The Computer Misuse Act makes it illegal to: access computer systems without authorisation (hacking), access data with intent to commit further crimes, and deliberately spread computer viruses or malware. It protects individuals and organisations from cybercrime.'},
+  {topic:'admin_theory',type:'fillin',q:'The legislation that protects personal data held by organisations and gives individuals rights over their own data is called the _____ Protection Act.',ans:'Data',explain:'The Data Protection Act (updated as GDPR in 2018) requires organisations to: collect data lawfully, keep it secure, only use it for the stated purpose, keep it accurate, not retain it longer than needed, and allow individuals to access their own data.'},
+  {topic:'admin_theory',type:'fillin',q:'The legislation that protects employees who regularly use computer screens from health risks like eye strain is called the _____ Screen Equipment regulations.',ans:'Display',explain:'DSE (Display Screen Equipment) regulations require employers to: assess DSE workstations, provide adjustable furniture, fund regular eye tests, ensure employees take regular breaks from screens, and provide training on DSE risks (posture, eye strain, RSI).'},
+  {topic:'admin_theory',type:'fillin',q:'The consistent use of the same colours, fonts, logos, and style across all business documents is called _____ style.',ans:'house',explain:'House style ensures all documents from an organisation look consistent and professional. It includes: standard fonts, font sizes, colours, margins, logo placement, and document templates. This contributes to a strong corporate image.'},
+  {topic:'admin_theory',type:'fillin',q:'The process of moving old or inactive files to long-term storage to free up space is called _____ filing.',ans:'dead',explain:'Dead filing (archiving): inactive files are moved to a separate archive location (physical or digital) rather than deleted. Benefits: frees up active storage space, keeps current files uncluttered, but retains records in case they are needed in the future.'},
+
+  // ══════════════════════════════════════════════════════════
+  // SPREADSHEETS (22 questions)
+  // ══════════════════════════════════════════════════════════
+  {topic:'spreadsheets',type:'mcq',q:'Which spreadsheet formula calculates the AVERAGE of cells B2 to B10?',
+    opts:['=SUM(B2:B10)','=COUNT(B2:B10)','=AVERAGE(B2:B10)','=MAX(B2:B10)'],
+    ans:2,explain:'=AVERAGE(B2:B10) calculates the mean of the range. =SUM adds them all together. =COUNT counts how many cells contain numbers. =MAX finds the highest value. =MIN finds the lowest value.'},
+  {topic:'spreadsheets',type:'mcq',q:'What does an IF function do in a spreadsheet?',
+    opts:['Adds up a range of cells','Counts the number of cells with data','Tests a condition and returns one value if TRUE and another if FALSE','Finds the maximum value in a range'],
+    ans:2,explain:'IF function syntax: =IF(condition, value_if_true, value_if_false). Example: =IF(B2>=50,"Pass","Fail") — if B2 is 50 or more, show "Pass", otherwise show "Fail". Widely used for conditional calculations in business documents.'},
+  {topic:'spreadsheets',type:'mcq',q:'What is the difference between a RELATIVE and ABSOLUTE cell reference?',
+    opts:['There is no difference — they work the same way','A relative reference (e.g. B2) changes when copied to another cell; an absolute reference (e.g. $B$2) stays fixed regardless of where it is copied','An absolute reference only works in charts','Relative references are more accurate than absolute'],
+    ans:1,explain:'Relative reference (e.g. B2): adjusts automatically when the formula is copied — row/column references change relative to the new position. Absolute reference (e.g. $B$2): the $ signs lock the row and/or column — it stays fixed when copied. Used when a formula always needs to refer to the same cell (e.g. a tax rate cell).'},
+  {topic:'spreadsheets',type:'mcq',q:'The =COUNT function counts:',
+    opts:['The number of cells containing ANY data (text or numbers)','Only cells containing NUMBERS','The total value of a range','Only blank cells'],
+    ans:1,explain:'=COUNT counts cells containing NUMBERS only. =COUNTA counts cells containing ANY data (text, numbers, dates). =COUNTIF counts cells meeting a specific condition. Choosing the right count function matters — =COUNT ignores text cells.'},
+  {topic:'spreadsheets',type:'mcq',q:'What does the =MAX function do?',
+    opts:['Adds up all values in a range','Returns the average value','Returns the HIGHEST (maximum) value in a specified range','Returns the lowest value'],
+    ans:2,explain:'=MAX(range) returns the highest value in the specified range. =MIN(range) returns the lowest. Example: =MAX(C2:C20) finds the highest score in cells C2 to C20. Both are commonly used in business to find best/worst figures.'},
+  {topic:'spreadsheets',type:'mcq',q:'An ABSOLUTE cell reference is written as:',
+    opts:['B2','B$2 only','$B$2 (dollar signs before both the column letter and row number)','B2:B10'],
+    ans:2,explain:'Absolute cell reference: $B$2 (both column and row locked). Mixed references: $B2 (column locked, row relative) or B$2 (row locked, column relative). Use absolute references when a formula needs to always refer to the same cell, regardless of where it is copied.'},
+  {topic:'spreadsheets',type:'mcq',q:'A NAMED CELL in a spreadsheet is used to:',
+    opts:['Rename an entire worksheet','Give a meaningful name to a cell or range, making formulas easier to read and understand','Change the colour of a cell','Lock a cell so it cannot be edited'],
+    ans:1,explain:'Named cells give a descriptive name to a cell or range (e.g. naming cell B2 as "TaxRate"). Formulas using named cells are easier to understand — =Price*TaxRate is clearer than =B2*$C$1. Named cells also automatically act as absolute references.'},
+  {topic:'spreadsheets',type:'mcq',q:'Which print view shows the actual calculated VALUES in cells (not the formulas)?',
+    opts:['Formula view','Print preview','Value view','Normal view'],
+    ans:2,explain:'Value view shows the calculated results in each cell (what you normally see). Formula view (Ctrl+`) shows the actual formulas typed in each cell. The SQA exam often requires printing both views to show your working and results.'},
+  {topic:'spreadsheets',type:'mcq',q:'Which chart type is BEST for showing how a total is divided into parts (percentages of a whole)?',
+    opts:['Line graph','Bar/column chart','Pie chart','Scatter graph'],
+    ans:2,explain:'Pie chart: best for showing proportions of a whole (e.g. 30% of sales from Product A). Bar/column chart: best for comparing categories. Line graph: best for showing trends over time. Always label charts with a title, axis labels, data labels, and a legend.'},
+  {topic:'spreadsheets',type:'mcq',q:'CONDITIONAL FORMATTING in a spreadsheet is used to:',
+    opts:['Apply formatting based on a rule — e.g. turn cells red if values are below a target','Change the font for the entire workbook','Insert a chart automatically','Lock cells from being edited'],
+    ans:0,explain:'Conditional formatting automatically changes cell appearance (colour, font, icon) based on rules. Example: highlight cells in red if sales are below £1,000, green if above £5,000. Makes data trends and problems immediately visible.'},
+  {topic:'spreadsheets',type:'mcq',q:'Which is a BENEFIT of using a spreadsheet in business?',
+    opts:['Data can never be changed once entered','Formulas automatically recalculate when data changes, saving time and reducing errors','It can only store text data, not numbers','Charts cannot be created from spreadsheet data'],
+    ans:1,explain:'Spreadsheet benefits: automatic recalculation when data changes (no need to manually recalculate), easy to create charts, can sort and filter data, can perform complex calculations quickly, data can be shared and merged into other documents.'},
+  {topic:'spreadsheets',type:'mcq',q:'HEADERS AND FOOTERS in a spreadsheet printout can contain:',
+    opts:['Only the document title','Only page numbers','Custom text, automatic page numbers, the date, the filename, and the sheet name','Only the company logo'],
+    ans:2,explain:'Headers (top of page) and footers (bottom of page) in spreadsheet printouts can contain: custom text (e.g. company name, document title), automatic page numbers, total page count, current date/time, filename, and sheet name. Used to identify and reference printouts professionally.'},
+  {topic:'spreadsheets',type:'fillin',q:'The spreadsheet function that tests a condition and returns different values depending on whether it is true or false is called the _____ function.',ans:'IF',explain:'IF function: =IF(logical_test, value_if_true, value_if_false). Example: =IF(D5>=50,"Pass","Fail"). Can be nested for multiple conditions. Very commonly tested in the Nat 5 exam — make sure you know the correct syntax.'},
+  {topic:'spreadsheets',type:'fillin',q:'A cell reference with dollar signs (e.g. $C$4) that does not change when the formula is copied is called an _____ cell reference.',ans:'absolute',explain:'Absolute cell reference ($C$4): the $ signs before the column letter AND row number prevent both from changing when copied. Used when a formula must always refer to the same cell — e.g. a VAT rate, discount percentage, or conversion factor stored in one cell.'},
+  {topic:'spreadsheets',type:'fillin',q:'The spreadsheet function that finds the HIGHEST value in a range of cells is called the _____ function.',ans:'MAX',explain:'=MAX(range) finds the highest numeric value. =MIN finds the lowest. Both are commonly used in business: e.g. =MAX(B2:B20) to find the top-selling product, =MIN(C2:C20) to find the cheapest item.'},
+
+  // ══════════════════════════════════════════════════════════
+  // DATABASES (20 questions)
+  // ══════════════════════════════════════════════════════════
+  {topic:'databases',type:'mcq',q:'A RELATIONAL DATABASE stores data in:',
+    opts:['A single flat table only','Two or more linked tables that share a common field, reducing data duplication','A word-processed document','A series of unconnected spreadsheets'],
+    ans:1,explain:'A relational database has two or more tables linked by a common field (primary key in one table matches a foreign key in another). This reduces data duplication (e.g. customer details stored once, referenced by many orders), improves consistency, and makes updates easier.'},
+  {topic:'databases',type:'mcq',q:'In a relational database, a PRIMARY KEY is:',
+    opts:['The most important word in a text field','A unique field that identifies each record in a table — no two records can have the same primary key value','A password to access the database','The first field in any table'],
+    ans:1,explain:'Primary key: a field (or combination of fields) that uniquely identifies each record — no duplicates allowed. Examples: CustomerID, StudentID, OrderNumber. Links tables together in a relational database. Every table should have a primary key.'},
+  {topic:'databases',type:'mcq',q:'Which search operator in a database would find all records where Sales are GREATER THAN £5,000?',
+    opts:['Sales = 5000','Sales < 5000','Sales > 5000','Sales >= 5000'],
+    ans:2,explain:'Database search operators: = (equals), > (greater than), < (less than), >= (greater than or equal to), <= (less than or equal to), <> or NOT (not equal to), OR (either condition). Sales > 5000 finds records where Sales exceed £5,000 (not including £5,000 itself).'},
+  {topic:'databases',type:'mcq',q:'The database search operator >= means:',
+    opts:['Greater than only','Less than or equal to','Greater than OR equal to — finds values at or above the specified amount','Not equal to'],
+    ans:2,explain:'>= (greater than or equal to): finds all records where the value meets OR exceeds the specified amount. Example: Age >= 18 finds all records where age is 18, 19, 20, etc. <= (less than or equal to) works similarly in the other direction.'},
+  {topic:'databases',type:'mcq',q:'A DATABASE FORM is used to:',
+    opts:['Print a professional summary report of records','Display and input one record at a time in an easy-to-use interface, making data entry easier and more accurate','Search for records using multiple criteria','Sort records alphabetically'],
+    ans:1,explain:'Database forms: display one record at a time in a user-friendly layout. Easier to input and edit data than using the raw table view. Can be designed with labels, headers, footers, and graphics. Reduces errors as only relevant fields are shown.'},
+  {topic:'databases',type:'mcq',q:'A DATABASE REPORT is used to:',
+    opts:['Enter new records into the database','Display and edit individual records one at a time','Present selected data from one or more tables in a professional, formatted layout suitable for printing','Sort records in the table'],
+    ans:2,explain:'Database reports: present selected data from tables/queries in a professionally formatted layout with headers, footers, logos, and grouping. Used to present summaries and data to management. Can be based on all records or the results of a search.'},
+  {topic:'databases',type:'mcq',q:'A DATABASE LABEL is used to:',
+    opts:['Add a title to a form','Create address labels or name badges from database records — each label prints one record','Sort records by surname','Search for specific records'],
+    ans:1,explain:'Database labels: produce address labels, name badges, or stickers — one label per record, in a grid layout ready for printing on sticky label sheets. Very useful for mail shots, event name badges, and membership cards. Fields from the database populate each label.'},
+  {topic:'databases',type:'mcq',q:'Sorting a database on TWO fields means:',
+    opts:['The database is deleted and restarted','Records are sorted by the first field, and where records have the same first field value, they are then sorted by the second field','All records are moved to a new table','The search criteria are limited to two fields'],
+    ans:1,explain:'Two-field sort: primary sort = first field (e.g. Surname), secondary sort = second field (e.g. Firstname). Where multiple records have the same surname, they are sorted by firstname within that group. Ascending = A-Z or 0-9; descending = Z-A or 9-0.'},
+  {topic:'databases',type:'mcq',q:'The OR operator in a database search finds records where:',
+    opts:['Both conditions must be true','Either one condition OR the other (or both) is true','Neither condition is true','Exactly one condition is true but not both'],
+    ans:1,explain:'OR operator: at least one of the conditions must be met. Example: Department = "Sales" OR Department = "Marketing" finds all staff in either department. AND requires BOTH conditions to be true (narrower search). OR gives a wider, more inclusive result set.'},
+  {topic:'databases',type:'mcq',q:'Which is a BENEFIT of using a database instead of a paper-based filing system?',
+    opts:['Paper is easier to search through than a database','A database can only store one type of information','Records can be searched, sorted, and found instantly; data can be easily updated and shared; mail merge is possible','Databases cannot produce reports or labels'],
+    ans:2,explain:'Benefits of databases: instant searching/sorting, easy to update and keep accurate, can produce forms/reports/labels, data can be merged into other documents (mail merge), access can be controlled, reduces physical storage space, multiple users can access simultaneously.'},
+  {topic:'databases',type:'fillin',q:'A search in a database that uses the condition "Salary NOT 30000" uses the _____ operator.',ans:'NOT',explain:'The NOT operator excludes records matching the specified value. Example: NOT "Glasgow" finds all records where city is NOT Glasgow. In some database software this is written as <> (not equal to). Produces the opposite of an equals search.'},
+  {topic:'databases',type:'fillin',q:'The unique field that identifies each record in a database table and cannot contain duplicates is called the _____ key.',ans:'primary',explain:'The primary key uniquely identifies each record. No two records can have the same primary key value. Examples: CustomerID, StudentNumber, OrderRef. It is used to link tables in a relational database (the matching field in another table is called a foreign key).'},
+  {topic:'databases',type:'fillin',q:'A database printout that presents selected information in a professional formatted layout with headers and footers is called a database _____.',ans:'report',explain:'Database reports select specific fields from one or more tables, format them professionally with titles, headers, footers, and logos, and present data summaries. They are used to communicate database information clearly to managers and stakeholders.'},
+
+  // ══════════════════════════════════════════════════════════
+  // WORD PROCESSING & DTP (20 questions)
+  // ══════════════════════════════════════════════════════════
+  {topic:'word_dtp',type:'mcq',q:'MAIL MERGE is used to:',
+    opts:['Send emails from within a word processor','Combine a standard letter or document (main document) with a data source (e.g. database or spreadsheet) to automatically personalise multiple copies','Copy formatting from one document to another','Merge two separate documents into one file'],
+    ans:1,explain:'Mail merge: combines a main document (with merge fields, e.g. <<FirstName>>) with a data source (database/spreadsheet with recipient details). Produces personalised copies — one per record. Used for: personalised letters, labels, name badges, certificates, and form letters.'},
+  {topic:'word_dtp',type:'mcq',q:'HOUSE STYLE in a business document refers to:',
+    opts:['A style sheet for home decoration','The consistent use of fonts, colours, spacing, margins, logo placement, and formatting across all of an organisation\'s documents','The personal preference of each employee','A style that can only be used in Microsoft Word'],
+    ans:1,explain:'House style ensures all documents from an organisation look consistent and professional: same fonts, sizes, colours, margins, header/footer layout, logo position. It contributes to corporate image and ensures customers/clients recognise all documents as coming from the same organisation.'},
+  {topic:'word_dtp',type:'mcq',q:'Which type of business document is used to communicate the topics to be discussed at a FORTHCOMING meeting?',
+    opts:['Minutes','Letter','Agenda','Business report'],
+    ans:2,explain:'Agenda: distributed BEFORE a meeting — lists items to be discussed, time, date, venue, and attendees. Minutes: written record of what WAS discussed and decided at a meeting (produced AFTER the meeting). Both are common administrative documents.'},
+  {topic:'word_dtp',type:'mcq',q:'MINUTES of a meeting are:',
+    opts:['A timed count of how long a meeting lasted','An agenda for an upcoming meeting','A formal written record of what was discussed, decided, and agreed at a meeting','A list of attendees only'],
+    ans:2,explain:'Minutes: written record of a meeting including: date/time/location, attendees (present and apologies), items discussed, decisions made, actions agreed (who will do what by when), and date of next meeting. Usually approved at the following meeting.'},
+  {topic:'word_dtp',type:'mcq',q:'An ITINERARY is a document that:',
+    opts:['Lists the topics to be discussed at a meeting','Records the decisions made at a meeting','Provides a detailed schedule of travel and accommodation arrangements for a trip or event, including times, locations, and booking references','Outlines a company\'s policies'],
+    ans:2,explain:'An itinerary provides a detailed plan for travel or an event: departure/arrival times, transport details, hotel addresses and booking references, meeting times and locations, and contact numbers. Given to the traveller so they have all information in one place.'},
+  {topic:'word_dtp',type:'mcq',q:'FIND AND REPLACE in a word processor is used to:',
+    opts:['Search for images only','Automatically locate every occurrence of a word or phrase and replace it with different text throughout the entire document','Delete all text in a document','Change the document language'],
+    ans:1,explain:'Find and Replace (Ctrl+H): searches the entire document for a specific word/phrase and replaces it with specified alternative text. Very efficient for making consistent changes throughout long documents — e.g. replacing a company name, correcting a misspelling throughout.'},
+  {topic:'word_dtp',type:'mcq',q:'A COMMENT in a word-processed document is used to:',
+    opts:['Add permanent text that prints on the document','Add a non-printing note attached to specific text — used for feedback, queries, or reminders','Change the formatting of text','Insert a footnote at the bottom of the page'],
+    ans:1,explain:'Comments: non-printing notes attached to specific text (shown in margin or as tooltip). Used for: reviewer feedback, queries to the author, reminders to check something, editorial notes. Can be actioned (replied to) or deleted. Do NOT print unless specifically requested.'},
+  {topic:'word_dtp',type:'mcq',q:'HEADERS AND FOOTERS in a word-processed document:',
+    opts:['Only appear on the first page','Are large font titles at the top of the document','Appear at the top (header) and bottom (footer) of every page and can contain the document title, page numbers, date, and company logo','Cannot include page numbers'],
+    ans:2,explain:'Headers appear at the top of every page; footers at the bottom. Can contain: document title, company name/logo, page numbers, date, file name. Essential for professional business documents — especially reports and letters — to ensure every page is clearly identified.'},
+  {topic:'word_dtp',type:'mcq',q:'Which feature of a word processor allows data from a spreadsheet or database to be automatically inserted into a document?',
+    opts:['Spell check','Find and replace','Mail merge using merge fields','Track changes'],
+    ans:2,explain:'Mail merge: merge fields (<<FieldName>>) are inserted into the main document. When the merge is run, data from the linked spreadsheet/database automatically fills each merge field, creating personalised copies. Used for letters, labels, certificates, and name badges.'},
+  {topic:'word_dtp',type:'mcq',q:'A BUSINESS REPORT typically includes which of these sections?',
+    opts:['Only a conclusion','Title, introduction/background, findings, conclusions, recommendations, and appendix (where appropriate)','Only bullet points with no headings','A bibliography only'],
+    ans:1,explain:'Business report structure: Title, Author, Date → Introduction/Background (purpose, scope) → Findings (main research/data) → Conclusions (what the findings mean) → Recommendations (suggested actions) → Appendix (supporting documents). Uses clear headings, subheadings, and professional formatting.'},
+  {topic:'word_dtp',type:'fillin',q:'The feature that combines a standard letter with a list of names and addresses from a database or spreadsheet to create personalised letters is called _____ merge.',ans:'mail',explain:'Mail merge process: (1) Create main document with merge fields. (2) Connect to data source (database/spreadsheet). (3) Match fields. (4) Preview and complete merge. Produces one personalised copy per record. Used for letters, labels, certificates, and name badges.'},
+  {topic:'word_dtp',type:'fillin',q:'The consistent formatting style used across all documents in an organisation — including fonts, colours, and logo placement — is called _____ style.',ans:'house',explain:'House style: a set of rules ensuring all organisational documents look consistent and professional. Defined in a style guide, enforced through document templates. Contributes to corporate image — all documents are immediately recognisable as coming from the same organisation.'},
+  {topic:'word_dtp',type:'fillin',q:'A document that is circulated BEFORE a meeting, listing the topics to be discussed, is called an _____.',ans:'agenda',explain:'Agenda: prepared and circulated before a meeting so attendees know what to expect and can prepare. Typically includes: meeting title, date/time/location, attendees list, numbered items for discussion, and "Any Other Business" (AOB) as a standard final item.'},
+
+  // ══════════════════════════════════════════════════════════
+  // IT COMMUNICATION (18 questions)
+  // ══════════════════════════════════════════════════════════
+  {topic:'communication',type:'mcq',q:'The CC field in an email is used to:',
+    opts:['Send a copy only to the main recipient','Send a carbon copy to additional recipients who are kept informed but are not the primary addressee','Send a secret copy to a recipient without others knowing','Attach a file to the email'],
+    ans:1,explain:'CC (Carbon Copy): sends a copy to additional recipients. All recipients can see who has been CC\'d. BCC (Blind Carbon Copy): sends a copy without other recipients knowing — used for large mailing lists or confidential copies. The TO field is for the main recipient(s).'},
+  {topic:'communication',type:'mcq',q:'FLAGGING AN EMAIL AS URGENT does which of the following?',
+    opts:['Sends the email immediately without a subject','Marks the email with a high-priority indicator to alert the recipient that it requires immediate attention','Automatically replies to the sender','Sends the email to all contacts'],
+    ans:1,explain:'Marking email as urgent/high priority adds a priority flag (often a red exclamation mark) to alert the recipient it needs immediate attention. Should only be used when genuinely urgent — overuse reduces its effectiveness as recipients start to ignore it.'},
+  {topic:'communication',type:'mcq',q:'An E-DIARY (electronic diary) allows you to:',
+    opts:['Send emails to multiple recipients','Create a blog post','Schedule appointments, set reminders, view other users\' calendars, and schedule recurring events','Store database records'],
+    ans:2,explain:'E-diary features: schedule appointments, set reminders (pop-up or email alerts), print calendar views (daily/weekly/monthly), schedule recurring appointments, access other users\' calendars (with permission), schedule tasks/to-do items. More flexible and shareable than a paper diary.'},
+  {topic:'communication',type:'mcq',q:'Which is a BENEFIT of using an e-diary over a paper diary?',
+    opts:['Paper diaries are easier to share with colleagues','An e-diary can only show one month at a time','Automatic reminders, easy to share with colleagues, recurring appointments set automatically, and accessible on multiple devices','Paper diaries cannot be lost'],
+    ans:2,explain:'E-diary benefits over paper: automatic reminders (never miss an appointment), easy to share with colleagues (view their availability), recurring appointments set once (not rewritten weekly), accessible on multiple devices, can be backed up, integrated with email.'},
+  {topic:'communication',type:'mcq',q:'When researching information on the internet, which is a sign of a RELIABLE source?',
+    opts:['The website has not been updated in several years','The website has no author listed','The website is from a reputable organisation (e.g. government, NHS, university), is regularly updated, and contains accurate, unbiased information','The website contains many advertisements and pop-ups'],
+    ans:2,explain:'Reliable internet sources: reputable author/organisation (government, NHS, university, well-known charity), regularly updated, accurate and unbiased, complete information, clear purpose. Unreliable signs: anonymous author, old/outdated content, biased opinion, excessive advertising, no references.'},
+  {topic:'communication',type:'mcq',q:'Which is a BENEFIT of using VIDEO CONFERENCING for business meetings?',
+    opts:['All participants must be in the same building','It requires no technology or internet connection','Saves travel time and costs, participants can join from different locations, and meetings can be recorded','Video conferencing is only suitable for large groups of over 100 people'],
+    ans:2,explain:'Video conferencing benefits: no travel required (saves time and cost), participants join from any location, can share screens and documents, meetings can be recorded for absent colleagues, reduces carbon footprint. Drawbacks: requires reliable internet, technical issues possible, harder to read body language.'},
+  {topic:'communication',type:'mcq',q:'A PRESENTATION is an appropriate method of communication when:',
+    opts:['Sending a confidential document to one person','Informally texting a colleague','Delivering information visually to a group of people at a meeting, conference, or training event','Sending a quick internal update message'],
+    ans:2,explain:'Presentations are suitable for: delivering information to groups, training sessions, sales pitches, conferences, annual general meetings. Features: slides with text, images, charts; animations; transitions; speaker notes. Benefits: visual, engaging, can be printed as handouts.'},
+  {topic:'communication',type:'mcq',q:'A SIGNATURE in an email is used to:',
+    opts:['Sign the email with a handwritten signature image only','Automatically add contact information (name, job title, company, phone number) to the end of every email you send','Encrypt the email for security','Send the email to a distribution list'],
+    ans:1,explain:'Email signature: auto-appended text at the bottom of emails containing the sender\'s contact details — name, job title, company name, phone number, email address, possibly company logo and website. Saves typing contact details each time and presents a professional image.'},
+  {topic:'communication',type:'mcq',q:'BOOKMARKS/FAVOURITES in a web browser are used to:',
+    opts:['Download files from websites','Save and quickly revisit frequently used websites without having to retype the full web address each time','Block unwanted websites','Print a webpage automatically'],
+    ans:1,explain:'Bookmarks (also called Favourites in Internet Explorer/Edge): save the URL of frequently visited websites for quick future access. Can be organised into folders by topic. Saves time and avoids mistyping long URLs. Equivalent to a phone\'s contact list for websites.'},
+  {topic:'communication',type:'mcq',q:'Which is a FEATURE of a WEBINAR?',
+    opts:['It can only be watched after it has finished','It is held in a physical meeting room','It is an online seminar/presentation delivered live over the internet — attendees can participate from any location and ask questions in real time','It requires all participants to have the same software installed'],
+    ans:2,explain:'Webinar (web-based seminar): live online presentation/meeting. Features: presenter shares screen, attendees watch/listen remotely, live Q&A (typed or spoken), can be recorded for later viewing, polls/surveys possible. Used for: training, product launches, conferences, stakeholder updates.'},
+  {topic:'communication',type:'fillin',q:'The email feature that sends a copy to additional recipients without the main recipient or other CC\'d recipients knowing is called _____.',ans:'BCC',explain:'BCC (Blind Carbon Copy): the recipient\'s email address is hidden from all other recipients. Used for: mass mailings (protecting privacy of recipient list), confidential copies, sending to a large group without exposing email addresses to all. CC shows all recipients; BCC hides them.'},
+  {topic:'communication',type:'fillin',q:'The feature in a presentation application that controls how one slide transitions to the next during a slideshow is called a slide _____.',ans:'transition',explain:'Slide transitions: visual effects that play when moving from one slide to the next (fade, push, wipe, etc.). Should be used consistently and subtly — excessive or varied transitions look unprofessional. Animations control how individual objects appear on a slide.'},
+  {topic:'communication',type:'fillin',q:'A recurring appointment in an e-diary is one that is automatically repeated at regular intervals, such as a _____ team meeting.',ans:'weekly',explain:'Recurring appointments: set once, repeats automatically (daily, weekly, monthly, annually). Examples: weekly team meetings, monthly reviews, annual appraisals. Much more efficient than manually entering the same appointment repeatedly. Can be edited for individual occurrences or all future occurrences.'},
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let xp = 0, level = 1, streak = 0, bestStreak = 0;
+let totalAnswered = 0, totalCorrect = 0;
+let topicStats = { admin_theory:{a:0,c:0}, spreadsheets:{a:0,c:0}, databases:{a:0,c:0}, word_dtp:{a:0,c:0}, communication:{a:0,c:0} };
+let dailyGoal = 10, dailyDone = 0;
+let quizPool = [], quizIdx = 0;
+let currentQ = null;
+let fcCards = [], fcIdx = 0, fcKnew = 0;
+let mockQuestions = [], mockIdx = 0, mockScore = 0;
+let mockTimer = null, mockTimeLeft = 0, mockStartTime = null;
+let wsScores = [{c:0,t:0},{c:0,t:0},{c:0,t:0}], wsSheet = 0;
+const WS_IDS = [
+  ['wq-at1','wq-at2','wq-at3','wq-at4','wq-at5'],
+  ['wq-sp1','wq-sp2','wq-db1','wq-db2'],
+  ['wq-wp1','wq-wp2','wq-ec1','wq-ec2']
+];
+
+// ── PERSIST ──
+function saveState() {
+  try {
+    localStorage.setItem('nat5bio_v2', JSON.stringify({
+      xp, level, streak, bestStreak, totalAnswered, totalCorrect,
+      topicStats, dailyGoal, dailyDone: getDailyDone()
+    }));
+  } catch(e){}
+}
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem('nat5bio_v2')||'{}');
+    xp = s.xp||0; level = s.level||1; streak = s.streak||0;
+    bestStreak = s.bestStreak||0; totalAnswered = s.totalAnswered||0;
+    totalCorrect = s.totalCorrect||0; topicStats = s.topicStats||topicStats;
+    dailyGoal = s.dailyGoal||10;
+    const today = new Date().toDateString();
+    const savedDay = s.dailyDay||'';
+    dailyDone = savedDay === today ? (s.dailyDone||0) : 0;
+  } catch(e){}
+}
+function getDailyDone(){ return dailyDone; }
+loadState();
+
+// ── NAV ──
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+  if (page==='progress') renderProgress();
+  if (page==='topics') renderTopicPage();
+}
+
+// ── TOPBAR ──
+function updateTopbar() {
+  document.getElementById('xp-val').textContent = xp;
+  document.getElementById('streak-val').textContent = streak;
+  document.getElementById('lv-badge').textContent = 'Lv '+level;
+}
+function showXPToast(pts) {
+  const t = document.getElementById('xp-toast');
+  t.textContent = '+'+pts+' XP ⭐';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 1800);
+}
+function addXP(pts) {
+  xp += pts;
+  const needed = level * 100;
+  if (xp >= needed) { level++; xp -= needed; showXPToast(pts); }
+  else showXPToast(pts);
+  updateTopbar();
+}
+
+// ── DAILY GOAL ──
+function updateGoal(inc=1) {
+  dailyDone += inc;
+  const pct = Math.min(100, (dailyDone/dailyGoal)*100);
+  document.getElementById('goal-fill').style.width = pct+'%';
+  document.getElementById('goal-txt').textContent = dailyDone+'/'+dailyGoal;
+  if (dailyDone >= dailyGoal) {
+    document.getElementById('goal-txt').textContent = '✅ Done!';
+  }
+}
+
+// ── PRACTICE ──
+function getPool() {
+  const t = document.getElementById('topic-sel').value;
+  const ty = document.getElementById('type-sel').value;
+  let pool = QUESTIONS.filter(q =>
+    (t==='all' || q.topic===t) &&
+    (ty==='all' || q.type===ty)
+  );
+  return shuffle(pool);
+}
+
+function newQuestion() {
+  if (!quizPool.length || quizIdx >= quizPool.length) {
+    quizPool = getPool();
+    quizIdx = 0;
+  }
+  currentQ = quizPool[quizIdx++];
+  renderQ(currentQ);
+  const pct = Math.min(100,(quizIdx/Math.max(quizPool.length,1))*100);
+  document.getElementById('q-progress-fill').style.width = pct+'%';
+}
+
+function renderQ(q) {
+  const topicName = TOPICS.find(t=>t.id===q.topic)?.name||'';
+  const diffTag = quizIdx <= 3 ? 'easy' : quizIdx <= 7 ? '' : 'hard';
+  const diffLabel = diffTag==='easy'?'Easy':diffTag==='hard'?'Hard':'Medium';
+  const letters = ['A','B','C','D'];
+  let inner = '';
+  if (q.type==='mcq') {
+    const shuffledOpts = q.opts.map((o,i)=>({o,correct:i===q.ans}));
+    inner = `<div class="opts">${shuffledOpts.map((op,i)=>`
+      <button class="opt-btn" data-correct="${op.correct}" onclick="checkMCQ(this,${op.correct})">
+        <span class="opt-letter">${letters[i]}</span>${op.o}
+      </button>`).join('')}</div>`;
+  } else {
+    inner = `<input class="fill-input" id="fill-ans" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')checkFill()">
+      <div class="btn-row"><button class="btn btn-green" onclick="checkFill()">Check ✓</button><button class="btn btn-ghost" onclick="newQuestion()">Skip →</button></div>`;
+  }
+  document.getElementById('question-area').innerHTML = `
+    <div class="q-card">
+      <div class="q-card-header">
+        <span class="q-tag">${topicName.toUpperCase()}</span>
+        ${diffTag?`<span class="q-tag ${diffTag}">${diffLabel}</span>`:''}
+        <span class="q-num">Q${quizIdx} / ${quizPool.length}</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      ${inner}
+      <div class="explanation" id="expl">
+        <div class="expl-label">📚 Explanation</div>
+        ${q.explain||''}
+      </div>
+    </div>
+    <div class="btn-row" id="next-row" style="display:none">
+      <button class="btn btn-green" onclick="newQuestion()">Next Question →</button>
+    </div>`;
+}
+
+function checkMCQ(el, correct) {
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  el.classList.add(correct?'correct':'wrong');
+  if (!correct) {
+    // Only highlight the single correct button, not all non-wrong ones
+    document.querySelectorAll('.opt-btn').forEach(b=>{
+      if(b.dataset.correct==='true') b.classList.add('correct');
+    });
+  }
+  recordAnswer(correct, currentQ?.topic);
+  document.getElementById('expl')?.classList.add('show');
+  const nr = document.getElementById('next-row');
+  if(nr) nr.style.display='flex';
+}
+
+function checkFill() {
+  const inp = document.getElementById('fill-ans');
+  if (!inp||!currentQ) return;
+  const val = inp.value.trim().toLowerCase();
+  const ans = currentQ.ans.toLowerCase();
+  const correct = val===ans || ans.includes(val) || val.includes(ans);
+  inp.classList.add(correct?'correct':'wrong');
+  inp.disabled = true;
+  document.querySelector('.btn-green')?.setAttribute('disabled','true');
+  if (!correct) {
+    const note = document.createElement('div');
+    note.style.cssText='color:var(--accent2);font-size:0.8rem;margin:6px 0';
+    note.textContent='✓ Correct answer: '+currentQ.ans;
+    inp.after(note);
+  }
+  recordAnswer(correct, currentQ?.topic);
+  document.getElementById('expl')?.classList.add('show');
+  const nr = document.getElementById('next-row');
+  if(nr) nr.style.display='flex';
+}
+
+function recordAnswer(correct, topic) {
+  totalAnswered++;
+  if(correct){ totalCorrect++; streak++; if(streak>bestStreak)bestStreak=streak; addXP(correct?10:2); }
+  else { streak=0; addXP(2); }
+  if(topic && topicStats[topic]){ topicStats[topic].a++; if(correct)topicStats[topic].c++; }
+  updateGoal();
+  updateTopbar();
+  saveState();
+}
+
+// ── FLASHCARDS ──
+function startFlashcards() {
+  const t = document.getElementById('fc-topic-sel').value;
+  fcCards = shuffle(QUESTIONS.filter(q=>t==='all'||q.topic===t));
+  fcIdx = 0; fcKnew = 0;
+  renderFC();
+}
+function renderFC() {
+  if (!fcCards.length) return;
+  const q = fcCards[fcIdx % fcCards.length];
+  const topicName = TOPICS.find(t=>t.id===q.topic)?.name||'';
+  const ans = q.type==='mcq' ? q.opts[q.ans] : q.ans;
+  document.getElementById('fc-front-text').textContent = q.q;
+  document.getElementById('fc-back-text').innerHTML = `<strong style="color:var(--accent4)">${ans}</strong>${q.explain?`<br><br><span style="font-size:0.8rem;color:var(--muted)">${q.explain}</span>`:''}`;
+  document.getElementById('fc-inner').classList.remove('flipped');
+  const total = fcCards.length;
+  const pct = Math.round((fcIdx/total)*100);
+  document.getElementById('fc-prog-txt').textContent = (fcIdx+1)+' / '+total;
+  document.getElementById('fc-prog-fill').style.width = pct+'%';
+  document.getElementById('fc-knew-txt').textContent = fcKnew;
+}
+function flipCard(){ document.getElementById('fc-inner').classList.toggle('flipped'); }
+function fcNext(knew) {
+  if(!fcCards.length) return;
+  if(knew){ fcKnew++; recordAnswer(true, fcCards[fcIdx%fcCards.length].topic); }
+  fcIdx++;
+  if(fcIdx >= fcCards.length){ fcIdx=0; fcCards=shuffle(fcCards); }
+  renderFC();
+}
+
+// ── MOCK EXAM ──
+let mockPaperType = 'paper1';
+function startMock(paper) {
+  mockPaperType = paper;
+  mockQuestions = shuffle(QUESTIONS).slice(0,25);
+  mockIdx = 0; mockScore = 0;
+  const mins = paper==='paper1'?30:40;
+  mockTimeLeft = mins*60;
+  mockStartTime = Date.now();
+  document.getElementById('mock-home').style.display='none';
+  document.getElementById('mock-exam').style.display='block';
+  document.getElementById('mock-results').style.display='none';
+  document.getElementById('mock-paper-label').textContent = paper==='paper1'?'Paper 1':'Paper 2';
+  document.getElementById('mock-total-live').textContent = 25;
+  mockTimer = setInterval(()=>{
+    mockTimeLeft--;
+    const m=Math.floor(mockTimeLeft/60), s=mockTimeLeft%60;
+    document.getElementById('mock-timer').textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(mockTimeLeft<=0){ clearInterval(mockTimer); mockShowResults(); }
+  },1000);
+  renderMockQ();
+}
+function renderMockQ() {
+  if(mockIdx>=mockQuestions.length){ mockEnd(); return; }
+  const q = mockQuestions[mockIdx];
+  const topicName = TOPICS.find(t=>t.id===q.topic)?.name||'';
+  const letters=['A','B','C','D'];
+  document.getElementById('mock-progress-fill').style.width=((mockIdx/25)*100)+'%';
+  document.getElementById('mock-score-live').textContent = mockScore;
+  let inner='';
+  if(q.type==='mcq'){
+    inner=`<div class="opts">${q.opts.map((o,i)=>`
+      <button class="opt-btn" data-correct="${i===q.ans}" onclick="mockCheckMCQ(this,${i===q.ans})">
+        <span class="opt-letter">${letters[i]}</span>${o}
+      </button>`).join('')}</div>`;
+  } else {
+    inner=`<input class="fill-input" id="mock-fill" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')mockSubmit()">`;
+  }
+  document.getElementById('mock-q-area').innerHTML=`
+    <div class="q-card">
+      <div class="q-card-header">
+        <span class="q-tag">${topicName.toUpperCase()}</span>
+        <span class="q-num">Q${mockIdx+1}/25</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      ${inner}
+      <div class="explanation" id="mock-expl"><div class="expl-label">📚 Explanation</div>${q.explain||''}</div>
+    </div>`;
+}
+function mockCheckMCQ(el, correct) {
+  document.querySelectorAll('#mock-q-area .opt-btn').forEach(b=>b.disabled=true);
+  el.classList.add(correct?'correct':'wrong');
+  if (!correct) {
+    document.querySelectorAll('#mock-q-area .opt-btn').forEach(b=>{
+      if(b.dataset.correct==='true') b.classList.add('correct');
+    });
+  }
+  if(correct) mockScore++;
+  document.getElementById('mock-expl')?.classList.add('show');
+  document.getElementById('mock-score-live').textContent=mockScore;
+  setTimeout(()=>{ mockIdx++; renderMockQ(); }, 1400);
+}
+function mockSubmit() {
+  const inp=document.getElementById('mock-fill');
+  const q=mockQuestions[mockIdx];
+  if(!inp||!q) return;
+  const val=inp.value.trim().toLowerCase();
+  const ans=q.ans.toLowerCase();
+  const correct=val===ans||ans.includes(val)||val.includes(ans);
+  inp.classList.add(correct?'correct':'wrong');
+  inp.disabled=true;
+  if(correct) mockScore++;
+  document.getElementById('mock-expl')?.classList.add('show');
+  document.getElementById('mock-score-live').textContent=mockScore;
+  setTimeout(()=>{ mockIdx++; renderMockQ(); },1200);
+}
+function mockSkip(){ mockIdx++; renderMockQ(); }
+function mockEnd(){ clearInterval(mockTimer); mockShowResults(); }
+function mockShowResults() {
+  document.getElementById('mock-exam').style.display='none';
+  document.getElementById('mock-results').style.display='block';
+  const pct=Math.round((mockScore/25)*100);
+  const elapsed=Math.round((Date.now()-mockStartTime)/1000);
+  const mins=Math.floor(elapsed/60),secs=elapsed%60;
+  document.getElementById('mock-pct').textContent=pct+'%';
+  document.getElementById('mr-correct').textContent=mockScore;
+  document.getElementById('mr-wrong').textContent=25-mockScore;
+  document.getElementById('mr-time').textContent=mins+'m '+secs+'s';
+  let grade,colour,msg;
+  if(pct>=85){grade='A';colour='var(--accent)';msg='Outstanding! 🎉';}
+  else if(pct>=70){grade='B';colour='var(--accent4)';msg='Well done! 👏';}
+  else if(pct>=60){grade='C';colour='var(--accent3)';msg='Good effort! 😊';}
+  else if(pct>=45){grade='D';colour='#ff9f43';msg='Keep revising! 📚';}
+  else{grade='No Award';colour='var(--accent2)';msg="Don't give up! 💪";}
+  const g=document.getElementById('mock-grade');
+  g.textContent='Grade '+grade; g.style.background=colour+'22';
+  g.style.color=colour; g.style.border=`1px solid ${colour}44`;
+  document.getElementById('mock-msg').textContent=msg;
+  const circ=2*Math.PI*54, offset=circ-(pct/100)*circ;
+  const ring=document.getElementById('mock-ring');
+  ring.style.strokeDasharray=circ; ring.style.stroke=colour;
+  ring.style.strokeDashoffset=circ;
+  setTimeout(()=>{ ring.style.transition='stroke-dashoffset 1s ease'; ring.style.strokeDashoffset=offset; },100);
+}
+function restartMock(){ startMock(mockPaperType); }
+
+// ── WORKSHEET ENGINE ──
+function wsSwitchSheet(idx) {
+  wsSheet=idx;
+  document.querySelectorAll('.ws-tab').forEach((t,i)=>t.classList.toggle('wta',i===idx));
+  document.querySelectorAll('.ws-sheet2').forEach((s,i)=>{ s.classList.remove('wsa'); if(i===idx) s.classList.add('wsa'); });
+  updateWsStrip();
+}
+function wsMCQ(qid, el, correct) {
+  const q=document.getElementById(qid);
+  if(q.dataset.done==='1') return;
+  q.dataset.done='1';
+  q.querySelectorAll('.ws-opt2').forEach(o=>{o.disabled=true;o.onclick=null;});
+  el.classList.add(correct?'wc':'ww');
+  document.getElementById(qid+'-r')?.classList.add('show');
+  q.classList.add(correct?'ok':'bad');
+  wsRecord(correct);
+}
+function wsEq(qid, ids, answers) {
+  const q=document.getElementById(qid);
+  if(q.dataset.done==='1') return;
+  let allOk=true;
+  ids.forEach((id,i)=>{
+    const inp=document.getElementById(id);
+    if(!inp) return;
+    const v=inp.value.trim().toLowerCase().replace(/[^a-z0-9\- ]/g,'');
+    const a=answers[i].toLowerCase().replace(/[^a-z0-9\- ]/g,'');
+    const ok=v===a||v.includes(a)||a.includes(v)||(v.length>2&&(a.startsWith(v)||v.startsWith(a)));
+    inp.classList.add(ok?'ec':'ew'); inp.disabled=true;
+    if(!ok) allOk=false;
+  });
+  q.dataset.done='1';
+  q.classList.add(allOk?'ok':'bad');
+  document.getElementById(qid+'-r')?.classList.add('show');
+  q.querySelector('.ws-check').disabled=true;
+  wsRecord(allOk);
+}
+function wsPunnett(qid, ids, answers) {
+  const q=document.getElementById(qid);
+  if(q.dataset.done==='1') return;
+  let allOk=true;
+  ids.forEach((id,i)=>{
+    const inp=document.getElementById(id);
+    if(!inp) return;
+    const ok=inp.value.trim().toUpperCase()===answers[i];
+    const cell=inp.closest('.pun-cell');
+    if(cell) cell.classList.add(ok?'pc':'pw');
+    inp.disabled=true;
+    if(!ok){ allOk=false; inp.value=answers[i]; }
+  });
+  q.dataset.done='1';
+  q.classList.add(allOk?'ok':'bad');
+  document.getElementById(qid+'-r')?.classList.add('show');
+  q.querySelector('.ws-check').disabled=true;
+  wsRecord(allOk);
+}
+function wsReveal(qid) {
+  const q=document.getElementById(qid);
+  if(q.dataset.done==='1') return;
+  q.dataset.done='1';
+  const ta=document.getElementById(qid+'-ta');
+  if(ta){ ta.disabled=true; ta.classList.add(ta.value.trim().length>10?'ec':'ew'); }
+  document.getElementById(qid+'-r')?.classList.add('show');
+  q.querySelector('.ws-check').disabled=true;
+  q.classList.add('ok');
+  wsRecord(true);
+}
+function wsRecord(ok) {
+  wsScores[wsSheet].t++;
+  if(ok) wsScores[wsSheet].c++;
+  updateWsStrip();
+}
+function updateWsStrip() {
+  const s=wsScores[wsSheet];
+  const strip=document.getElementById('ws-score-strip');
+  if(s.t===0){ strip.style.display='none'; return; }
+  strip.style.display='flex';
+  const pct=Math.round((s.c/s.t)*100);
+  document.getElementById('ws-score-num').textContent=s.c+'/'+s.t;
+  document.getElementById('ws-score-fill2').style.width=pct+'%';
+  const msg=pct>=80?'🌟 Excellent! On track for an A/B!':pct>=60?'👍 Good — review what you missed':'📚 Keep revising — read the model answers';
+  document.getElementById('ws-score-msg').textContent=msg;
+}
+function wsMarkAll(idx) {
+  const prev=wsSheet; wsSheet=idx;
+  WS_IDS[idx].forEach(qid=>{
+    const q=document.getElementById(qid);
+    if(!q||q.dataset.done==='1') return;
+    document.getElementById(qid+'-r')?.classList.add('show');
+    q.querySelectorAll('.eq-in').forEach(i=>{ if(!i.disabled){i.disabled=true;i.classList.add('ew');} });
+    q.querySelectorAll('.pun-in').forEach(i=>{ if(!i.disabled){i.disabled=true;i.closest('.pun-cell')?.classList.add('pw');} });
+    q.querySelectorAll('.ws-ta').forEach(ta=>{ if(!ta.disabled){ta.disabled=true;ta.classList.add('ew');} });
+    q.dataset.done='1'; q.classList.add('bad');
+    q.querySelectorAll('.ws-check').forEach(b=>b.disabled=true);
+    wsRecord(false);
+  });
+  wsSheet=prev; updateWsStrip();
+}
+function wsReset2(idx) {
+  wsScores[idx]={c:0,t:0};
+  WS_IDS[idx].forEach(qid=>{
+    const q=document.getElementById(qid);
+    if(!q) return;
+    q.dataset.done='0'; q.className='ws-q';
+    document.getElementById(qid+'-r')?.classList.remove('show');
+    q.querySelectorAll('.ws-opt2').forEach(o=>{ o.classList.remove('wc','ww'); o.disabled=false; });
+    q.querySelectorAll('.eq-in').forEach(i=>{ i.value=''; i.disabled=false; i.classList.remove('ec','ew'); });
+    q.querySelectorAll('.pun-in').forEach(i=>{ i.value=''; i.disabled=false; i.closest('.pun-cell')?.classList.remove('pc','pw'); });
+    q.querySelectorAll('.ws-ta').forEach(ta=>{ ta.disabled=false; ta.classList.remove('ec','ew'); });
+    q.querySelectorAll('.ws-check').forEach(b=>b.disabled=false);
+  });
+  if(wsSheet===idx) updateWsStrip();
+}
+
+// ── TOPICS PAGE ──
+function renderTopicPage() {
+  const g=document.getElementById('topic-grid-page');
+  g.innerHTML='';
+  TOPICS.forEach(t=>{
+    const qs=QUESTIONS.filter(q=>q.topic===t.id).length;
+    const st=topicStats[t.id]||{a:0,c:0};
+    const pct=st.a>0?Math.round((st.c/st.a)*100):0;
+    const div=document.createElement('div');
+    div.className='topic-card sel';
+    div.innerHTML=`<div class="topic-icon">${t.icon}</div>
+      <div class="topic-name">${t.name}</div>
+      <div class="topic-count">${qs} questions</div>
+      <div class="topic-sub-text">${t.sub||''}</div>
+      <div class="topic-prog"><div class="topic-prog-fill" style="width:${pct}%"></div></div>`;
+    div.onclick=()=>{
+      document.getElementById('topic-sel').value=t.id;
+      nav('practice');
+      newQuestion();
+    };
+    g.appendChild(div);
+  });
+}
+
+// ── PROGRESS ──
+function renderProgress() {
+  document.getElementById('ps-total').textContent=totalAnswered;
+  document.getElementById('ps-correct').textContent=totalCorrect;
+  document.getElementById('ps-streak').textContent=bestStreak;
+  document.getElementById('ps-xp').textContent=xp;
+  const rows=document.getElementById('topic-prog-rows');
+  rows.innerHTML='';
+  TOPICS.forEach(t=>{
+    const st=topicStats[t.id]||{a:0,c:0};
+    const pct=st.a>0?Math.round((st.c/st.a)*100):0;
+    rows.innerHTML+=`<div class="prog-topic-row">
+      <div class="prog-topic-name">${t.icon} ${t.name}</div>
+      <div class="prog-topic-bar-wrap">
+        <div class="prog-topic-bar"><div class="prog-topic-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="prog-topic-pct">${st.a>0?pct+'%':'—'}</div>
+    </div>`;
+  });
+}
+function resetAllProgress() {
+  if(!confirm('Reset all progress? This cannot be undone.')) return;
+  xp=0;level=1;streak=0;bestStreak=0;totalAnswered=0;totalCorrect=0;
+  topicStats={admin_theory:{a:0,c:0},spreadsheets:{a:0,c:0},databases:{a:0,c:0},word_dtp:{a:0,c:0},communication:{a:0,c:0}};
+  dailyDone=0;
+  saveState(); updateTopbar(); updateGoal(0); renderProgress();
+}
+
+// ── SETTINGS ──
+function saveSettings() {
+  const name=document.getElementById('set-name').value.trim();
+  dailyGoal=parseInt(document.getElementById('set-goal').value)||10;
+  if(name) {
+    document.querySelector('.topbar-logo').innerHTML=`🏴󠁧󠁢󠁳󠁣󠁴󠁿 ${name}'s <span>Bio</span>`;
+  }
+  saveState();
+  const btn=document.querySelector('#page-settings .btn-green');
+  btn.textContent='✅ Saved!';
+  setTimeout(()=>btn.textContent='💾 Save',1500);
+}
+
+// ── UTILS ──
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+// ── INIT ──
+updateTopbar();
+updateGoal(0);
+newQuestion();
+</script>
+</body>
+</html>
