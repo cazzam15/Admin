@@ -1,0 +1,28 @@
+{
+  "name": "Higher Administration & IT Revision — Scotland",
+  "short_name": "Higher Admin",
+  "description": "Free SQA Higher Administration and IT revision: practice questions, mock papers, flashcards and worksheets.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f6fa",
+  "theme_color": "#0065bd",
+  "scope": "./",
+  "lang": "en-GB",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
